@@ -1,8 +1,8 @@
 @using Microsoft.AspNetCore.Identity
 @using MarketNFC.Models
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<Uzytkownik> SignInManager
+@inject UserManager<Uzytkownik> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {
