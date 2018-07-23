@@ -37,6 +37,14 @@ namespace MarketNFC.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+    
+            builder.Entity<StanLodowki>().HasKey(x => new { x.LodowkaId, x.ProduktId });
+            builder.Entity<UpodobaniaUzytkownika>()
+                .HasKey(x => new { x.UzytkownikId, x.ProduktId });
+            builder.Entity<UzytkownikGrupa>()
+                .HasKey(x => new { x.UzytkownikId, x.GrupaId });  
+            builder.Entity<ZamowienieProdukt>()
+                .HasKey(x => new { x.ZamowienieId, x.ProduktId });       
         }
     }
 }
