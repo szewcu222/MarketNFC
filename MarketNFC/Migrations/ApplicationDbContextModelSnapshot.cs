@@ -23,7 +23,7 @@ namespace MarketNFC.Migrations
 
             modelBuilder.Entity("MarketNFC.Models.Grupa", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("GrupaId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("LodowkaId");
@@ -31,14 +31,14 @@ namespace MarketNFC.Migrations
                     b.Property<string>("Nazwa")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.HasKey("GrupaId");
 
                     b.ToTable("Grupa");
                 });
 
             modelBuilder.Entity("MarketNFC.Models.Lodowka", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("LodowkaId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DataAktualizacji");
@@ -47,14 +47,14 @@ namespace MarketNFC.Migrations
 
                     b.Property<int>("Pojemnosc");
 
-                    b.HasKey("Id");
+                    b.HasKey("LodowkaId");
 
                     b.ToTable("Lodowka");
                 });
 
             modelBuilder.Entity("MarketNFC.Models.Produkt", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProduktId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DataWaznosci");
@@ -65,7 +65,7 @@ namespace MarketNFC.Migrations
                     b.Property<string>("RFIDTag")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.HasKey("ProduktId");
 
                     b.ToTable("Produkt");
                 });
@@ -78,16 +78,24 @@ namespace MarketNFC.Migrations
 
                     b.HasKey("LodowkaId", "ProduktId");
 
+                    b.HasIndex("ProduktId");
+
                     b.ToTable("StanLodowki");
                 });
 
-            modelBuilder.Entity("MarketNFC.Models.UpodobaniaUzytkownika", b =>
+            modelBuilder.Entity("MarketNFC.Models.UpodobanieUzytkownika", b =>
                 {
                     b.Property<int>("UzytkownikId");
 
                     b.Property<int>("ProduktId");
 
+                    b.Property<string>("UzytkownikId1");
+
                     b.HasKey("UzytkownikId", "ProduktId");
+
+                    b.HasIndex("ProduktId");
+
+                    b.HasIndex("UzytkownikId1");
 
                     b.ToTable("UpodobaniaUzytkownika");
                 });
@@ -158,14 +166,20 @@ namespace MarketNFC.Migrations
 
                     b.Property<int>("GrupaId");
 
+                    b.Property<string>("UzytkownikId1");
+
                     b.HasKey("UzytkownikId", "GrupaId");
+
+                    b.HasIndex("GrupaId");
+
+                    b.HasIndex("UzytkownikId1");
 
                     b.ToTable("UzytkownikGrupa");
                 });
 
             modelBuilder.Entity("MarketNFC.Models.Zamowienie", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ZamowienieId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DataDostarczenia");
@@ -176,9 +190,13 @@ namespace MarketNFC.Migrations
 
                     b.Property<int>("TypZamowienia");
 
-                    b.Property<int>("UzytkownikId");
+                    b.Property<string>("UzytkownikId");
 
-                    b.HasKey("Id");
+                    b.HasKey("ZamowienieId");
+
+                    b.HasIndex("LodowkaId");
+
+                    b.HasIndex("UzytkownikId");
 
                     b.ToTable("Zamowienie");
                 });
@@ -190,6 +208,8 @@ namespace MarketNFC.Migrations
                     b.Property<int>("ProduktId");
 
                     b.HasKey("ZamowienieId", "ProduktId");
+
+                    b.HasIndex("ProduktId");
 
                     b.ToTable("ZamowienieProdukt");
                 });
@@ -300,6 +320,68 @@ namespace MarketNFC.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("MarketNFC.Models.StanLodowki", b =>
+                {
+                    b.HasOne("MarketNFC.Models.Lodowka")
+                        .WithMany("StanyLodowek")
+                        .HasForeignKey("LodowkaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MarketNFC.Models.Produkt")
+                        .WithMany("StanyLodowek")
+                        .HasForeignKey("ProduktId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MarketNFC.Models.UpodobanieUzytkownika", b =>
+                {
+                    b.HasOne("MarketNFC.Models.Produkt")
+                        .WithMany("UpodobanieUzytkownika")
+                        .HasForeignKey("ProduktId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MarketNFC.Models.Uzytkownik")
+                        .WithMany("UpodobaniaUzytkownika")
+                        .HasForeignKey("UzytkownikId1");
+                });
+
+            modelBuilder.Entity("MarketNFC.Models.UzytkownikGrupa", b =>
+                {
+                    b.HasOne("MarketNFC.Models.Grupa")
+                        .WithMany("UzytkownicyGrupy")
+                        .HasForeignKey("GrupaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MarketNFC.Models.Uzytkownik")
+                        .WithMany("UzytkownicyGrupy")
+                        .HasForeignKey("UzytkownikId1");
+                });
+
+            modelBuilder.Entity("MarketNFC.Models.Zamowienie", b =>
+                {
+                    b.HasOne("MarketNFC.Models.Lodowka")
+                        .WithMany("Zamowienia")
+                        .HasForeignKey("LodowkaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MarketNFC.Models.Uzytkownik")
+                        .WithMany("Zamowienia")
+                        .HasForeignKey("UzytkownikId");
+                });
+
+            modelBuilder.Entity("MarketNFC.Models.ZamowienieProdukt", b =>
+                {
+                    b.HasOne("MarketNFC.Models.Produkt")
+                        .WithMany("ZamowieniaProdukty")
+                        .HasForeignKey("ProduktId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MarketNFC.Models.Zamowienie")
+                        .WithMany("ZamowieniaProdukty")
+                        .HasForeignKey("ZamowienieId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

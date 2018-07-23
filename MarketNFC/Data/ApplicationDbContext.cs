@@ -19,7 +19,7 @@ namespace MarketNFC.Data
         public DbSet<Produkt> Produkty { get; set; }
         public DbSet<Lodowka> Lodowki { get; set; }
         public DbSet<StanLodowki> StanyLodowek { get; set; }
-        public DbSet<UpodobaniaUzytkownika> UpodobaniaUzytkownikow { get; set; }
+        public DbSet<UpodobanieUzytkownika> UpodobaniaUzytkownikow { get; set; }
         public DbSet<UzytkownikGrupa> UzytkownicyGrupy { get; set; }
         public DbSet<Zamowienie> Zamowienia { get; set; }
         public DbSet<ZamowienieProdukt> ZamowieniaProdukty { get; set; }
@@ -47,7 +47,7 @@ namespace MarketNFC.Data
             // Add your customizations after calling base.OnModelCreating(builder);
     
             builder.Entity<StanLodowki>().HasKey(x => new { x.LodowkaId, x.ProduktId });
-            builder.Entity<UpodobaniaUzytkownika>()
+            builder.Entity<UpodobanieUzytkownika>()
                 .HasKey(x => new { x.UzytkownikId, x.ProduktId });
             builder.Entity<UzytkownikGrupa>()
                 .HasKey(x => new { x.UzytkownikId, x.GrupaId });  

@@ -11,19 +11,29 @@ namespace MarketNFC.Models
     [Table("Zamowienie")]
     public class Zamowienie
     {
+        public Zamowienie()
+        {
+            ZamowieniaProdukty = new HashSet<ZamowienieProdukt>();
+        }
+
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        [ForeignKey("Uzytkownik")]
-        public int UzytkownikId { get; set; }
-        [ForeignKey("Lodowka")]
-        public int LodowkaId { get; set; }
+        public int ZamowienieId { get; set; }
         [Required]
         public DateTime DataZamowienia { get; set; }
         [Required]
         public DateTime DataDostarczenia { get; set; }
         [Required]
         public TypeOrder TypZamowienia { get; set; }
+
+
+        [ForeignKey("Uzytkownik")]
+        public string UzytkownikId { get; set; }
+        [ForeignKey("Lodowka")]
+        public int LodowkaId { get; set; }
+
+
+        public virtual ICollection<ZamowienieProdukt> ZamowieniaProdukty { get; set; }
 
     }
 }

@@ -16,5 +16,13 @@ namespace MarketNFC.Models
         public string Nazwisko { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DataRejestracji { get; set; }
+
+
+        public virtual ICollection<Zamowienie> Zamowienia { get; set; }
+
+        public virtual ICollection<UpodobanieUzytkownika> UpodobaniaUzytkownika { get; set; }
+
+        public virtual ICollection<UzytkownikGrupa> UzytkownicyGrupy { get; set; }
+
     }
 }

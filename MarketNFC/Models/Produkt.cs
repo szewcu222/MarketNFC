@@ -10,9 +10,17 @@ namespace MarketNFC.Models
     [Table("Produkt")]
     public class Produkt
     {
+        public Produkt()
+        {
+            StanyLodowek = new HashSet<StanLodowki>();
+            ZamowieniaProdukty = new HashSet<ZamowienieProdukt>();
+            UpodobanieUzytkownika = new HashSet<UpodobanieUzytkownika>();
+        }
+
+
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int ProduktId { get; set; }
         [Required]
         public string Nazwa { get; set; }
         [Required]
@@ -20,5 +28,13 @@ namespace MarketNFC.Models
         [Required]
         [Display(Name = "Data waznosci produktu")]
         public DateTime DataWaznosci { get; set; }
+
+
+        public virtual ICollection<StanLodowki> StanyLodowek{ get; set; }
+
+        public virtual ICollection<ZamowienieProdukt> ZamowieniaProdukty{ get; set; }
+
+        public virtual ICollection<UpodobanieUzytkownika> UpodobanieUzytkownika { get; set; }
+
     }
 }
