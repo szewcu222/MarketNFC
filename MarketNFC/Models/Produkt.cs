@@ -11,6 +11,7 @@ namespace MarketNFC.Models
     public class Produkt
     {
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string Nazwa { get; set; }

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace MarketNFC.Data.Migrations
+namespace MarketNFC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180723152801_[model_test_v1]")]
-    partial class model_test_v1
+    [Migration("20180723161145_[init_migration]")]
+    partial class init_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,20 +103,23 @@ namespace MarketNFC.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("DataRejestracji");
+                    b.Property<DateTime>("DataRejestracji")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("Imie");
+                    b.Property<string>("Imie")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("Nazwisko");
+                    b.Property<string>("Nazwisko")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);

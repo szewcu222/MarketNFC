@@ -11,7 +11,7 @@ namespace MarketNFC.Models
     public class Lodowka
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [ForeignKey("Grupa")]
         public int GrupaId { get; set; }

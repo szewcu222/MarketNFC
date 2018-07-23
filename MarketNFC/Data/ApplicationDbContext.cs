@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MarketNFC.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace MarketNFC.Data
 {
@@ -14,7 +15,6 @@ namespace MarketNFC.Data
             : base(options)
         {
         }
-
         public DbSet<Grupa> Grupy { get; set; }
         public DbSet<Produkt> Produkty { get; set; }
         public DbSet<Lodowka> Lodowki { get; set; }
@@ -24,10 +24,17 @@ namespace MarketNFC.Data
         public DbSet<Zamowienie> Zamowienia { get; set; }
         public DbSet<ZamowienieProdukt> ZamowieniaProdukty { get; set; }
 
+        private static IConfiguration Configuration;
+        static string conString = Configuration.GetConnectionString("DefaultConnection");
+
         public static ApplicationDbContext Create()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            //optionsBuilder.UseSqlServer(connectionString, providerOptions=>providerOptions.CommandTimeout(60));
+
+            optionsBuilder
+                .UseSqlServer(conString, providerOptions=>providerOptions.CommandTimeout(60))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
             return new ApplicationDbContext(optionsBuilder.Options);
         }
 

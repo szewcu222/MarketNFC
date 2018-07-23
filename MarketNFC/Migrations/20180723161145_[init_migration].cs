@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using System.Collections.Generic;
 
-namespace MarketNFC.Data.Migrations
+namespace MarketNFC.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class init_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,30 +24,19 @@ namespace MarketNFC.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    DataRejestracji = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
+                    Imie = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    Nazwisko = table.Column<string>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
@@ -62,6 +49,115 @@ namespace MarketNFC.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grupa",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LodowkaId = table.Column<int>(nullable: false),
+                    Nazwa = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grupa", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Lodowka",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DataAktualizacji = table.Column<DateTime>(nullable: false),
+                    GrupaId = table.Column<int>(nullable: false),
+                    Pojemnosc = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lodowka", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Produkt",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DataWaznosci = table.Column<DateTime>(nullable: false),
+                    Nazwa = table.Column<string>(nullable: false),
+                    RFIDTag = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Produkt", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StanLodowki",
+                columns: table => new
+                {
+                    LodowkaId = table.Column<int>(nullable: false),
+                    ProduktId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StanLodowki", x => new { x.LodowkaId, x.ProduktId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UpodobaniaUzytkownika",
+                columns: table => new
+                {
+                    UzytkownikId = table.Column<int>(nullable: false),
+                    ProduktId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UpodobaniaUzytkownika", x => new { x.UzytkownikId, x.ProduktId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UzytkownikGrupa",
+                columns: table => new
+                {
+                    UzytkownikId = table.Column<int>(nullable: false),
+                    GrupaId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UzytkownikGrupa", x => new { x.UzytkownikId, x.GrupaId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Zamowienie",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DataDostarczenia = table.Column<DateTime>(nullable: false),
+                    DataZamowienia = table.Column<DateTime>(nullable: false),
+                    LodowkaId = table.Column<int>(nullable: false),
+                    TypZamowienia = table.Column<int>(nullable: false),
+                    UzytkownikId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Zamowienie", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ZamowienieProdukt",
+                columns: table => new
+                {
+                    ZamowienieId = table.Column<int>(nullable: false),
+                    ProduktId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ZamowienieProdukt", x => new { x.ZamowienieId, x.ProduktId });
                 });
 
             migrationBuilder.CreateTable(
@@ -150,15 +246,37 @@ namespace MarketNFC.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName");
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -176,11 +294,6 @@ namespace MarketNFC.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_UserId",
-                table: "AspNetUserRoles",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -189,7 +302,8 @@ namespace MarketNFC.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -208,6 +322,30 @@ namespace MarketNFC.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Grupa");
+
+            migrationBuilder.DropTable(
+                name: "Lodowka");
+
+            migrationBuilder.DropTable(
+                name: "Produkt");
+
+            migrationBuilder.DropTable(
+                name: "StanLodowki");
+
+            migrationBuilder.DropTable(
+                name: "UpodobaniaUzytkownika");
+
+            migrationBuilder.DropTable(
+                name: "UzytkownikGrupa");
+
+            migrationBuilder.DropTable(
+                name: "Zamowienie");
+
+            migrationBuilder.DropTable(
+                name: "ZamowienieProdukt");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

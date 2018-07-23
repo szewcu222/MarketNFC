@@ -12,6 +12,7 @@ namespace MarketNFC.Models
     public class Zamowienie
     {
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [ForeignKey("Uzytkownik")]
         public int UzytkownikId { get; set; }

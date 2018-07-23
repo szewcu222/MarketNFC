@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MarketNFC.Models;
+using MarketNFC.Data;
 
 namespace MarketNFC.Controllers
 {
@@ -12,6 +13,19 @@ namespace MarketNFC.Controllers
     {
         public IActionResult Index()
         {
+            var db = ApplicationDbContext.Create();
+
+            var produkt = new Produkt();
+            produkt.Nazwa = "Kielba";
+            produkt.RFIDTag = "56ghj78900090bcxs";
+            produkt.DataWaznosci = DateTime.Now;
+
+            db.Produkty.Add(produkt);
+            db.SaveChanges();
+
+            var p = db.Produkty.Find(1);
+            
+            ViewData["Zwrotka"] = p.Nazwa;
             return View();
         }
 
