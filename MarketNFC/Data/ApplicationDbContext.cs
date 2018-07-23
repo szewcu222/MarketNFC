@@ -24,8 +24,9 @@ namespace MarketNFC.Data
         public DbSet<Zamowienie> Zamowienia { get; set; }
         public DbSet<ZamowienieProdukt> ZamowieniaProdukty { get; set; }
 
-        private static IConfiguration Configuration;
-        static string conString = Configuration.GetConnectionString("DefaultConnection");
+        const string conString = "Server=(localdb)\\mssqllocaldb;"
+           + "Database=aspnet-MarketNFC-D8B02893-7B80-4147-93E2-9C1BF8DB9279;"
+           + "Trusted_Connection=True;MultipleActiveResultSets=true";
 
         public static ApplicationDbContext Create()
         {
