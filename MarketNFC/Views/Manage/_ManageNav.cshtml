@@ -1,5 +1,5 @@
 ﻿@using MarketNFC.Views.Manage
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<Uzytkownik> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,16 +7,12 @@ using System.Threading.Tasks;
 
 namespace MarketNFC.Models
 {
-    [Table("Grupa")]
-    public class Grupa
+    [Table("StanLodowki")]
+    public class StanLodowki
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [ForeignKey("Lodowka")]
         public int LodowkaId { get; set; }
-        [Required]
-        public string Nazwa { get; set; }
+        [ForeignKey("Produkt")]
+        public int ProduktId { get; set; }
     }
 }

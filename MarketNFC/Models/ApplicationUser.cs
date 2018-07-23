@@ -11,7 +11,6 @@ namespace MarketNFC.Models
     {
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
-
-
+        public DateTime DataRejestracji { get; set; }
     }
 }
