@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MarketNFC.Models
 {
     [Table("UpodobaniaUzytkownika")]
-    public class UpodobaniaUzytkownika
+    public class UpodobanieUzytkownika
     {
         [ForeignKey("Uzytkownik")]
         public int UzytkownikId { get; set; }

@@ -10,14 +10,28 @@ namespace MarketNFC.Models
     [Table("Lodowka")]
     public class Lodowka
     {
+        public Lodowka()
+        {
+            StanyLodowek = new HashSet<StanLodowki>();
+            Zamowienia = new HashSet<Zamowienie>();
+        }
+
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        [ForeignKey("Grupa")]
-        public int GrupaId { get; set; }
+        public int LodowkaId { get; set; }
         [Required]
         [Display(Name = "Pojemnosc w [L]")]
         public int Pojemnosc { get; set; }
         public DateTime DataAktualizacji { get; set; }
+
+
+        [ForeignKey("Grupa")]
+        public int GrupaId { get; set; }
+
+
+        public virtual ICollection<StanLodowki> StanyLodowek { get; set; }
+
+        public virtual ICollection<Zamowienie> Zamowienia { get; set; }
+
     }
 }
