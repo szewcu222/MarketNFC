@@ -53,6 +53,23 @@ namespace MarketNFC.Controllers
             return "test";
         }
 
+        public JsonResult Produkt()
+        {
+            var db = ApplicationDbContext.Create();
 
+            var p = db.Produkty.Find(1);
+
+            return Json(p);
+        }
+        public JsonResult Produkty()
+        {
+            var p = new List<Produkt> { 
+                new Produkt { Nazwa = "Boczek", RFIDTag = "41238cdfshfuia7", DataWaznosci = DateTime.Now },
+                new Produkt { Nazwa = "Jagodzianka", RFIDTag = "v98dfc7fddsa0-a", DataWaznosci = DateTime.Now },
+                new Produkt { Nazwa = "Maslo", RFIDTag = "ds90a9023iddsaod", DataWaznosci = DateTime.Now }
+            };
+
+            return Json(p);
+        }
     }
 }
