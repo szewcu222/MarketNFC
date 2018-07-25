@@ -6,24 +6,36 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MarketNFC.Models;
 using MarketNFC.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MarketNFC.Controllers
 {
     public class HomeController : Controller
     {
+        private UserManager<Uzytkownik> _userManager;
+        private SignInManager<Uzytkownik> _signManager;
+        private ApplicationDbContext _db;
+
+        public HomeController(UserManager<Uzytkownik> userManager, 
+            SignInManager<Uzytkownik> signManager)
+        {
+            _db = ApplicationDbContext.Create();
+            _userManager = userManager;
+            _signManager = signManager;
+        }
+
         public IActionResult Index()
         {
-            var db = ApplicationDbContext.Create();
-
             var produkt = new Produkt();
             produkt.Nazwa = "Kielba";
             produkt.RFIDTag = "56ghj78900090bcxs";
             produkt.DataWaznosci = DateTime.Now;
 
-            db.Produkty.Add(produkt);
-            db.SaveChanges();
+            _db.Produkty.Add(produkt);
+            _db.SaveChanges();
 
-            var p = db.Produkty.Find(1);
+            var p = _db.Produkty.Find(1);
             
             ViewData["Zwrotka"] = p.Nazwa;
             return View();
@@ -55,9 +67,7 @@ namespace MarketNFC.Controllers
 
         public JsonResult Produkt()
         {
-            var db = ApplicationDbContext.Create();
-
-            var p = db.Produkty.Find(1);
+            var p = _db.Produkty.Find(1);
 
             return Json(p);
         }

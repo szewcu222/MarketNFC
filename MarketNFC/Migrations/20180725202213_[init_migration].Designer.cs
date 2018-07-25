@@ -12,8 +12,8 @@ using System;
 namespace MarketNFC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180723185840_[Initial_migration]")]
-    partial class Initial_migration
+    [Migration("20180725202213_[init_migration]")]
+    partial class init_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

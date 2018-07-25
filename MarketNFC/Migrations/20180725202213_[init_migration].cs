@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MarketNFC.Migrations
 {
-    public partial class Initial_migration : Migration
+    public partial class init_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
