@@ -33,6 +33,8 @@ namespace MarketNFC.Migrations
 
                     b.HasKey("GrupaId");
 
+                    b.HasIndex("LodowkaId");
+
                     b.ToTable("Grupa");
                 });
 
@@ -43,11 +45,13 @@ namespace MarketNFC.Migrations
 
                     b.Property<DateTime>("DataAktualizacji");
 
-                    b.Property<int>("GrupaId");
+                    b.Property<int?>("GrupaId");
 
                     b.Property<int>("Pojemnosc");
 
                     b.HasKey("LodowkaId");
+
+                    b.HasIndex("GrupaId");
 
                     b.ToTable("Lodowka");
                 });
@@ -85,17 +89,13 @@ namespace MarketNFC.Migrations
 
             modelBuilder.Entity("MarketNFC.Models.UpodobanieUzytkownika", b =>
                 {
-                    b.Property<int>("UzytkownikId");
+                    b.Property<string>("UzytkownikId");
 
                     b.Property<int>("ProduktId");
-
-                    b.Property<string>("UzytkownikId1");
 
                     b.HasKey("UzytkownikId", "ProduktId");
 
                     b.HasIndex("ProduktId");
-
-                    b.HasIndex("UzytkownikId1");
 
                     b.ToTable("UpodobaniaUzytkownika");
                 });
@@ -110,23 +110,20 @@ namespace MarketNFC.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("DataRejestracji")
-                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("DataRejestracji");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("Imie")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Imie");
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("Nazwisko")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Nazwisko");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -162,17 +159,13 @@ namespace MarketNFC.Migrations
 
             modelBuilder.Entity("MarketNFC.Models.UzytkownikGrupa", b =>
                 {
-                    b.Property<int>("UzytkownikId");
+                    b.Property<string>("UzytkownikId");
 
                     b.Property<int>("GrupaId");
-
-                    b.Property<string>("UzytkownikId1");
 
                     b.HasKey("UzytkownikId", "GrupaId");
 
                     b.HasIndex("GrupaId");
-
-                    b.HasIndex("UzytkownikId1");
 
                     b.ToTable("UzytkownikGrupa");
                 });
@@ -322,64 +315,81 @@ namespace MarketNFC.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("MarketNFC.Models.Grupa", b =>
+                {
+                    b.HasOne("MarketNFC.Models.Lodowka", "Lodowka")
+                        .WithMany()
+                        .HasForeignKey("LodowkaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MarketNFC.Models.Lodowka", b =>
+                {
+                    b.HasOne("MarketNFC.Models.Grupa", "Grupa")
+                        .WithMany()
+                        .HasForeignKey("GrupaId");
+                });
+
             modelBuilder.Entity("MarketNFC.Models.StanLodowki", b =>
                 {
-                    b.HasOne("MarketNFC.Models.Lodowka")
-                        .WithMany("StanyLodowek")
+                    b.HasOne("MarketNFC.Models.Lodowka", "Lodowka")
+                        .WithMany("StanLodowki")
                         .HasForeignKey("LodowkaId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MarketNFC.Models.Produkt")
-                        .WithMany("StanyLodowek")
+                    b.HasOne("MarketNFC.Models.Produkt", "Produkt")
+                        .WithMany("StanLodowek")
                         .HasForeignKey("ProduktId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MarketNFC.Models.UpodobanieUzytkownika", b =>
                 {
-                    b.HasOne("MarketNFC.Models.Produkt")
-                        .WithMany("UpodobanieUzytkownika")
+                    b.HasOne("MarketNFC.Models.Produkt", "Produkt")
+                        .WithMany("UpodobanieUzytkownikow")
                         .HasForeignKey("ProduktId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MarketNFC.Models.Uzytkownik")
-                        .WithMany("UpodobaniaUzytkownika")
-                        .HasForeignKey("UzytkownikId1");
+                    b.HasOne("MarketNFC.Models.Uzytkownik", "Uzytkownik")
+                        .WithMany("UpodobanieUzytkownikow")
+                        .HasForeignKey("UzytkownikId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MarketNFC.Models.UzytkownikGrupa", b =>
                 {
-                    b.HasOne("MarketNFC.Models.Grupa")
-                        .WithMany("UzytkownicyGrupy")
+                    b.HasOne("MarketNFC.Models.Grupa", "Grupa")
+                        .WithMany("UzytkownikGrupy")
                         .HasForeignKey("GrupaId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MarketNFC.Models.Uzytkownik")
-                        .WithMany("UzytkownicyGrupy")
-                        .HasForeignKey("UzytkownikId1");
+                    b.HasOne("MarketNFC.Models.Uzytkownik", "Uzytkownik")
+                        .WithMany("UzytkownikGrupy")
+                        .HasForeignKey("UzytkownikId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MarketNFC.Models.Zamowienie", b =>
                 {
-                    b.HasOne("MarketNFC.Models.Lodowka")
+                    b.HasOne("MarketNFC.Models.Lodowka", "Lodowka")
                         .WithMany("Zamowienia")
                         .HasForeignKey("LodowkaId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MarketNFC.Models.Uzytkownik")
+                    b.HasOne("MarketNFC.Models.Uzytkownik", "Uzytkownik")
                         .WithMany("Zamowienia")
                         .HasForeignKey("UzytkownikId");
                 });
 
             modelBuilder.Entity("MarketNFC.Models.ZamowienieProdukt", b =>
                 {
-                    b.HasOne("MarketNFC.Models.Produkt")
-                        .WithMany("ZamowieniaProdukty")
+                    b.HasOne("MarketNFC.Models.Produkt", "Produkt")
+                        .WithMany("ZamowienieProdukty")
                         .HasForeignKey("ProduktId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MarketNFC.Models.Zamowienie")
-                        .WithMany("ZamowieniaProdukty")
+                    b.HasOne("MarketNFC.Models.Zamowienie", "Zamowienie")
+                        .WithMany("ZamowienieProdukty")
                         .HasForeignKey("ZamowienieId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

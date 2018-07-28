@@ -13,7 +13,7 @@ namespace MarketNFC.Models
     {
         public Zamowienie()
         {
-            ZamowieniaProdukty = new HashSet<ZamowienieProdukt>();
+            ZamowienieProdukty = new HashSet<ZamowienieProdukt>();
         }
 
         [Key]
@@ -29,11 +29,12 @@ namespace MarketNFC.Models
 
         [ForeignKey("Uzytkownik")]
         public string UzytkownikId { get; set; }
+        public Uzytkownik Uzytkownik { get; set; }
+
         [ForeignKey("Lodowka")]
         public int LodowkaId { get; set; }
+        public Lodowka Lodowka { get; set; }
 
-
-        public virtual ICollection<ZamowienieProdukt> ZamowieniaProdukty { get; set; }
-
+        public virtual ICollection<ZamowienieProdukt> ZamowienieProdukty { get; set; }
     }
 }

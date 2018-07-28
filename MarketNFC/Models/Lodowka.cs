@@ -12,7 +12,7 @@ namespace MarketNFC.Models
     {
         public Lodowka()
         {
-            StanyLodowek = new HashSet<StanLodowki>();
+            StanLodowki = new HashSet<StanLodowki>();
             Zamowienia = new HashSet<Zamowienie>();
         }
 
@@ -26,12 +26,11 @@ namespace MarketNFC.Models
 
 
         [ForeignKey("Grupa")]
-        public int GrupaId { get; set; }
+        public int? GrupaId { get; set; }
+        public virtual Grupa Grupa { get; set; }
 
-
-        public virtual ICollection<StanLodowki> StanyLodowek { get; set; }
+        public virtual ICollection<StanLodowki> StanLodowki { get; set; }
 
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
-
     }
 }

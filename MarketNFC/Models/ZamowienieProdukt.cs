@@ -12,7 +12,10 @@ namespace MarketNFC.Models
     {
         [ForeignKey("Zamowienie")]
         public int ZamowienieId { get; set; }
+        public Zamowienie Zamowienie { get; set; }
+
         [ForeignKey("Produkt")]
         public int ProduktId { get; set; }
+        public Produkt Produkt { get; set; }
     }
 }

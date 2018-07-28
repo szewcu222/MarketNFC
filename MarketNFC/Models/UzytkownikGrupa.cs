@@ -11,8 +11,11 @@ namespace MarketNFC.Models
     public class UzytkownikGrupa
     {
         [ForeignKey("Uzytkownik")]
-        public int UzytkownikId { get; set; }
+        public string UzytkownikId { get; set; }
+        public Uzytkownik Uzytkownik { get; set; }
+
         [ForeignKey("Grupa")]
         public int GrupaId { get; set; }
+        public Grupa Grupa { get; set; }
     }
 }

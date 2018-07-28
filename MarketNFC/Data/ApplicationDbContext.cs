@@ -33,7 +33,7 @@ namespace MarketNFC.Data
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
             optionsBuilder
-                .UseSqlServer(conString, providerOptions=>providerOptions.CommandTimeout(60))
+                .UseSqlServer(conString, providerOptions => providerOptions.CommandTimeout(60))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
             return new ApplicationDbContext(optionsBuilder.Options);
@@ -45,14 +45,62 @@ namespace MarketNFC.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
-    
-            builder.Entity<StanLodowki>().HasKey(x => new { x.LodowkaId, x.ProduktId });
+
+            //StanLodowki
+            builder.Entity<StanLodowki>()
+                .HasKey(sl => new { sl.LodowkaId, sl.ProduktId });
+
+            builder.Entity<StanLodowki>()
+                .HasOne(sl => sl.Lodowka)
+                .WithMany(l => l.StanLodowki)
+                .HasForeignKey(sl => sl.LodowkaId);
+
+            builder.Entity<StanLodowki>()
+                .HasOne(sl => sl.Produkt)
+                .WithMany(p => p.StanLodowek)
+                .HasForeignKey(sl => sl.ProduktId);
+
+            //UpodobaniaUzytkownika
             builder.Entity<UpodobanieUzytkownika>()
                 .HasKey(x => new { x.UzytkownikId, x.ProduktId });
+
+            builder.Entity<UpodobanieUzytkownika>()
+               .HasOne(uu => uu.Uzytkownik)
+               .WithMany(u => u.UpodobanieUzytkownikow)
+               .HasForeignKey(uu => uu.UzytkownikId);
+
+            builder.Entity<UpodobanieUzytkownika>()
+                .HasOne(uu => uu.Produkt)
+                .WithMany(p => p.UpodobanieUzytkownikow)
+                .HasForeignKey(uu => uu.ProduktId);
+
+            //UzytkownikGrupa
             builder.Entity<UzytkownikGrupa>()
-                .HasKey(x => new { x.UzytkownikId, x.GrupaId });  
+                .HasKey(x => new { x.UzytkownikId, x.GrupaId });
+
+            builder.Entity<UzytkownikGrupa>()
+               .HasOne(ug => ug.Uzytkownik)
+               .WithMany(u => u.UzytkownikGrupy)
+               .HasForeignKey(ug => ug.UzytkownikId);
+
+            builder.Entity<UzytkownikGrupa>()
+                .HasOne(ug => ug.Grupa)
+                .WithMany(g => g.UzytkownikGrupy)
+                .HasForeignKey(ug => ug.GrupaId);
+
+            //ZamowienieProdukt
             builder.Entity<ZamowienieProdukt>()
-                .HasKey(x => new { x.ZamowienieId, x.ProduktId });       
+                .HasKey(x => new { x.ZamowienieId, x.ProduktId });
+
+            builder.Entity<ZamowienieProdukt>()
+                .HasOne(zp => zp.Zamowienie)
+                .WithMany(z => z.ZamowienieProdukty)
+                .HasForeignKey(zp => zp.ZamowienieId);
+
+            builder.Entity<ZamowienieProdukt>()
+                .HasOne(zp => zp.Produkt)
+                .WithMany(p => p.ZamowienieProdukty)
+                .HasForeignKey(zp => zp.ProduktId);
         }
     }
 }

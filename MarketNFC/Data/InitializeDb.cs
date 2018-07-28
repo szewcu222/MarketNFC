@@ -18,7 +18,7 @@ namespace MarketNFC.Data
         {
             using (var serviceScope = appBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var userManager = new UserManager<Uzytkownik>();
+                //var userManager = new UserManager<Uzytkownik>();
                 ApplicationDbContext db = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
 
                 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - LODOWKA
@@ -41,8 +41,8 @@ namespace MarketNFC.Data
                 new Uzytkownik { Email = "kozula@gmail.com", Imie = "MIchal", Nazwisko = "Kozubek" }
                 };
 
-                foreach (var user in userzy)
-                    _userManager.CreateAsync(user, "haslo");
+                /*foreach (var user in userzy)
+                    _userManager.CreateAsync(user, "haslo");*/
 
                 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GRUPA
 
@@ -52,8 +52,8 @@ namespace MarketNFC.Data
                 new Grupa { Nazwa = "banda chuja", LodowkaId = 3 }
                 };
 
-                foreach (var grupa in grupy)
-                    _db.Grupy.Add(grupa);
+                /*foreach (var grupa in grupy)
+                    _db.Grupy.Add(grupa);*/
 
                 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - GRUPA
 
@@ -61,5 +61,4 @@ namespace MarketNFC.Data
             }
         }
     }
-}
 }

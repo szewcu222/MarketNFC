@@ -12,23 +12,20 @@ namespace MarketNFC.Models
     {
         public Grupa()
         {
-            UzytkownicyGrupy = new HashSet<UzytkownikGrupa>();
+            UzytkownikGrupy = new HashSet<UzytkownikGrupa>();
         }
 
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int GrupaId { get; set; }
-
         [Required]
         public string Nazwa { get; set; }
 
 
         [ForeignKey("Lodowka")]
         public int LodowkaId { get; set; }
+        public Lodowka Lodowka { get; set; }
 
-
-        public virtual ICollection<UzytkownikGrupa> UzytkownicyGrupy { get; set; }
-
-
+        public virtual ICollection<UzytkownikGrupa> UzytkownikGrupy { get; set; }
     }
 }

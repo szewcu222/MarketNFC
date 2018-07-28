@@ -10,19 +10,22 @@ namespace MarketNFC.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class Uzytkownik : IdentityUser
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Uzytkownik()
+        {
+            UzytkownikGrupy = new HashSet<UzytkownikGrupa>();
+            Zamowienia = new HashSet<Zamowienie>();
+            UpodobanieUzytkownikow = new HashSet<UpodobanieUzytkownika>();
+        }
+
         public string Imie { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Nazwisko { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DataRejestracji { get; set; }
 
 
+        public virtual ICollection<UzytkownikGrupa> UzytkownikGrupy { get; set; }
+        
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
 
-        public virtual ICollection<UpodobanieUzytkownika> UpodobaniaUzytkownika { get; set; }
-
-        public virtual ICollection<UzytkownikGrupa> UzytkownicyGrupy { get; set; }
-
+        public virtual ICollection<UpodobanieUzytkownika> UpodobanieUzytkownikow { get; set; }
     }
 }
