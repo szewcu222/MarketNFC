@@ -22,9 +22,7 @@ namespace MarketNFC.Models
         public string Nazwa { get; set; }
 
 
-        [ForeignKey("Lodowka")]
-        public int LodowkaId { get; set; }
-        public Lodowka Lodowka { get; set; }
+        public virtual Lodowka Lodowka { get; set; }
 
         public virtual ICollection<UzytkownikGrupa> UzytkownikGrupy { get; set; }
     }

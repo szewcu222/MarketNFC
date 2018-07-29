@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MarketNFC.Models;
 using Microsoft.Extensions.Configuration;
+using MarketNFC.Extensions;
 
 namespace MarketNFC.Data
 {
@@ -25,7 +26,7 @@ namespace MarketNFC.Data
         public DbSet<ZamowienieProdukt> ZamowieniaProdukty { get; set; }
 
         const string conString = "Server=(localdb)\\mssqllocaldb;"
-           + "Database=aspnet-MarketNFC-D8B02893-7B80-4147-93E2-9C1BF8DB9279;"
+           + "Database=aspnet-MarketNFC-D8B02893-7B80-4147-93E2-9C1BF8DB927;"
            + "Trusted_Connection=True;MultipleActiveResultSets=true";
 
         public static ApplicationDbContext Create()
@@ -57,7 +58,7 @@ namespace MarketNFC.Data
 
             builder.Entity<StanLodowki>()
                 .HasOne(sl => sl.Produkt)
-                .WithMany(p => p.StanLodowek)
+                .WithMany(p => p.StanLodowki)
                 .HasForeignKey(sl => sl.ProduktId);
 
             //UpodobaniaUzytkownika
@@ -66,7 +67,7 @@ namespace MarketNFC.Data
 
             builder.Entity<UpodobanieUzytkownika>()
                .HasOne(uu => uu.Uzytkownik)
-               .WithMany(u => u.UpodobanieUzytkownikow)
+               .WithMany(u => u.UpodobaniaUzytkownika)
                .HasForeignKey(uu => uu.UzytkownikId);
 
             builder.Entity<UpodobanieUzytkownika>()
@@ -101,6 +102,8 @@ namespace MarketNFC.Data
                 .HasOne(zp => zp.Produkt)
                 .WithMany(p => p.ZamowienieProdukty)
                 .HasForeignKey(zp => zp.ProduktId);
+
+            builder.Seed();
         }
     }
 }

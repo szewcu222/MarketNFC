@@ -11,7 +11,7 @@ namespace MarketNFC.Models
     public class UpodobanieUzytkownika
     {
         [ForeignKey("Uzytkownik")]
-        public string UzytkownikId { get; set; }
+        public string  UzytkownikId { get; set; }
         public Uzytkownik Uzytkownik { get; set; }
 
         [ForeignKey("Produkt")]

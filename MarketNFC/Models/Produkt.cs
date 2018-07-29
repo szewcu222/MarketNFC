@@ -12,7 +12,7 @@ namespace MarketNFC.Models
     {
         public Produkt()
         {
-            StanLodowek = new HashSet<StanLodowki>();
+            StanLodowki = new HashSet<StanLodowki>();
             ZamowienieProdukty = new HashSet<ZamowienieProdukt>();
             UpodobanieUzytkownikow = new HashSet<UpodobanieUzytkownika>();
         }
@@ -29,8 +29,15 @@ namespace MarketNFC.Models
         [Display(Name = "Data waznosci produktu")]
         public DateTime DataWaznosci { get; set; }
 
+        public string Producent { get; set; }
 
-        public virtual ICollection<StanLodowki> StanLodowek{ get; set; }
+        public int GlobalnyNumerJednostkiHandlowej{ get; set; }
+
+        public int NumerPartiiProdukcyjnej { get; set; }
+
+        public float Cena { get; set; }
+
+        public virtual ICollection<StanLodowki> StanLodowki{ get; set; }
 
         public virtual ICollection<ZamowienieProdukt> ZamowienieProdukty{ get; set; }
 

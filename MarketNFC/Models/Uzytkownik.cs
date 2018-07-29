@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,18 +15,20 @@ namespace MarketNFC.Models
         {
             UzytkownikGrupy = new HashSet<UzytkownikGrupa>();
             Zamowienia = new HashSet<Zamowienie>();
-            UpodobanieUzytkownikow = new HashSet<UpodobanieUzytkownika>();
+            UpodobaniaUzytkownika = new HashSet<UpodobanieUzytkownika>();
         }
 
+        //public int UzytkownikId { get; set; }
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
         public DateTime DataRejestracji { get; set; }
-
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
 
         public virtual ICollection<UzytkownikGrupa> UzytkownikGrupy { get; set; }
         
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
 
-        public virtual ICollection<UpodobanieUzytkownika> UpodobanieUzytkownikow { get; set; }
+        public virtual ICollection<UpodobanieUzytkownika> UpodobaniaUzytkownika{ get; set; }
     }
 }
