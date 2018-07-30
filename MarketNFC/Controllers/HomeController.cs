@@ -8,6 +8,7 @@ using MarketNFC.Models;
 using MarketNFC.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketNFC.Controllers
 {
@@ -74,13 +75,32 @@ namespace MarketNFC.Controllers
         public JsonResult Zamowienie()
         {
             var p = _db.Produkty.Find(1);
-            var z = _db.Zamowienia.Find(1);
+            var zam = _db.Zamowienia.Find(1);
 
-            var u = z.Uzytkownik;
+            //var q = _db.Zamowienia
+            //    .Include(z => z.ZamowienieProdukty)
+            //        .ThenInclude(prod => prod.Produkt)
+            //    .Include(z => z.Uzytkownik).
+            //        FirstOrDefault();
+
+            var q = _db.Zamowienia
+                //.Include(z => z.ZamowienieProdukty)
+                //.ThenInclude(za => za.Produkt)
+                .Include(z => z.Uzytkownik)
+                //.Include(z => z.Lodowka)
+                .FirstOrDefault();
+
+            // przegladarka zwraca niepelnego jsona a Postman sie wysypuje i totalnie nic nie zwraca
+            // dodatkowo jezeli chce sie zapytac przez postmana nie mozna dawac na localhost tylko konkretne ip np http://192.168.0.20:44371/home/zamowienie
+            // trzeba skonfigurowac zeby mozna bylo z zewnatrz pytac na localhosta .vs/config/applicationhost.config
+            // jeden z pierwszych commitow Added config to allow remote connection
+
+            var u = zam.Uzytkownik;
+            
 
             //_db.Zamowienia.FirstOrDefault(u => u.ZamowienieProdukty.FirstOrDefault(f => f.ZamowienieId == 1));
 
-            return Json(z);
+            return Json(q);
         }
         public JsonResult Produkty()
         {
