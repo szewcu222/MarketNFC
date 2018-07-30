@@ -75,6 +75,9 @@ namespace MarketNFC.Controllers
         {
             var p = _db.Produkty.Find(1);
             var z = _db.Zamowienia.Find(1);
+
+            var u = z.Uzytkownik;
+
             //_db.Zamowienia.FirstOrDefault(u => u.ZamowienieProdukty.FirstOrDefault(f => f.ZamowienieId == 1));
 
             return Json(z);
