@@ -44,6 +44,7 @@ namespace MarketNFC
         {
             if (env.IsDevelopment())
             {
+                app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
                 //app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();

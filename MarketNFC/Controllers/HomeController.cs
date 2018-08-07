@@ -9,6 +9,7 @@ using MarketNFC.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace MarketNFC.Controllers
 {
@@ -112,5 +113,34 @@ namespace MarketNFC.Controllers
 
             return Json(p);
         }
+
+        public JsonResult GetProdukt ()
+        {
+            var p = _db.Produkty.Find(1);
+            return Json(p);
+        }
+
+        //http://192.168.0.20:44371/home/post
+        //       {
+	    //"nazwa":"BROWAT",
+	    //"rfidTag":"1111",
+	    //"dataWaznosci":"2018-07-29T23:08:56.413",
+	    //"producent":"TYSKIE",
+	    //"globalnyNumerJednostkiHandlowej":1111,
+	    //"numerPartiiProdukcyjnej":1111,"cena":5.0,
+	    //"stanLodowki":[],"zamowienieProdukty":[],
+	    //"upodobanieUzytkownikow":[]
+        //         }
+
+
+        public void PostProdukt([FromBody]JObject value)
+        {
+            Produkt posted = value.ToObject<Produkt>();
+
+            _db.Produkty.Add(posted);
+            _db.SaveChanges();
+            
+        }
+
     }
 }
