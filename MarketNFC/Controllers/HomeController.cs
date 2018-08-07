@@ -35,7 +35,7 @@ namespace MarketNFC.Controllers
             produkt.DataWaznosci = DateTime.Now;
 
             _db.Produkty.Add(produkt);
-            _db.SaveChanges();
+            //_db.SaveChanges();
 
             var p = _db.Produkty.Find(1);
             
@@ -144,19 +144,19 @@ namespace MarketNFC.Controllers
         }
 
         //http://192.168.0.20:44371/home/post
-        //       {
-	    //"nazwa":"BROWAT",
-	    //"rfidTag":"1111",
-	    //"dataWaznosci":"2018-07-29T23:08:56.413",
-	    //"producent":"TYSKIE",
-	    //"globalnyNumerJednostkiHandlowej":1111,
-	    //"numerPartiiProdukcyjnej":1111,"cena":5.0,
-	    //"stanLodowki":[],"zamowienieProdukty":[],
-	    //"upodobanieUzytkownikow":[]
-        //         }
+    //           {
+	   // "nazwa":"BROWAT",
+	   // "rfidTag":"1111",
+	   // "dataWaznosci":"2018-07-29T23:08:56.413",
+	   // "producent":"TYSKIE",
+	   // "globalnyNumerJednostkiHandlowej":1111,
+	   // "numerPartiiProdukcyjnej":1111,"cena":5.0,
+	   // "stanLodowki":[],"zamowienieProdukty":[],
+	   // "upodobanieUzytkownikow":[]
+    //}
 
 
-        public void PostProdukt([FromBody]JObject value)
+    public void PostProdukt([FromBody]JObject value)
         {
             Produkt posted = value.ToObject<Produkt>();
 
