@@ -73,7 +73,7 @@ namespace MarketNFC.Controllers
 
             return Json(p);
         }
-        public JsonResult Zamowienie()
+        public List<Zamowienie> Zamowienie()
         {
             var p = _db.Produkty.Find(1);
             var zam = _db.Zamowienia.Find(1);
@@ -87,9 +87,16 @@ namespace MarketNFC.Controllers
             var q = _db.Zamowienia
                 //.Include(z => z.ZamowienieProdukty)
                 //.ThenInclude(za => za.Produkt)
-                .Include(z => z.Uzytkownik)
+                //.Include(z => z.Uzytkownik)
                 //.Include(z => z.Lodowka)
                 .FirstOrDefault();
+
+            ZamowienieProdukt zampro = new ZamowienieProdukt
+            {
+                Zamowienie = q,
+                Produkt = p
+            };
+
 
             // przegladarka zwraca niepelnego jsona a Postman sie wysypuje i totalnie nic nie zwraca
             // dodatkowo jezeli chce sie zapytac przez postmana nie mozna dawac na localhost tylko konkretne ip np http://192.168.0.20:44371/home/zamowienie
@@ -97,11 +104,27 @@ namespace MarketNFC.Controllers
             // jeden z pierwszych commitow Added config to allow remote connection
 
             var u = zam.Uzytkownik;
-            
+
+            var posts = _db.Zamowienia
+                .Include(e => e.ZamowienieProdukty)
+                .ThenInclude(e => e.Produkt)
+                .ToList();
+
+            foreach (var post in posts)
+            {
+                Console.WriteLine($"  Post {post.ZamowienieId}");
+                foreach (var tag in post.ZamowienieProdukty.Select(e => e.Produkt))
+                {
+                    Console.WriteLine($"    Tag {tag.RFIDTag}");
+                }
+            }
+
+
 
             //_db.Zamowienia.FirstOrDefault(u => u.ZamowienieProdukty.FirstOrDefault(f => f.ZamowienieId == 1));
 
-            return Json(q);
+            return posts;
+            //return Json(zampro);
         }
         public JsonResult Produkty()
         {
