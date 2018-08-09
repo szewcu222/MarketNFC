@@ -17,7 +17,9 @@ namespace MarketNFC.Models
         //{
         //    ZamowienieProdukty = new HashSet<ZamowienieProdukt>();
         //}
-        public Zamowienie() => Produkty = new JoinCollectionFacade<Produkt, Zamowienie, ZamowienieProdukt>(this, ZamowienieProdukty);
+        public Zamowienie() => Produkty 
+            = new JoinCollectionFacade<Produkt, Zamowienie, ZamowienieProdukt>
+                (this, ZamowienieProdukty);
 
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
@@ -38,7 +40,8 @@ namespace MarketNFC.Models
         public int LodowkaId { get; set; }
         public Lodowka Lodowka { get; set; }
         //[JsonIgnore]
-        private ICollection<ZamowienieProdukt> ZamowienieProdukty { get; } = new List<ZamowienieProdukt>();
+        private ICollection<ZamowienieProdukt> ZamowienieProdukty { get; } 
+            = new List<ZamowienieProdukt>();
 
         [NotMapped]
         public ICollection<Produkt> Produkty { get; set; }

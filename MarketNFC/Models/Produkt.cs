@@ -38,20 +38,19 @@ namespace MarketNFC.Models
 
         public string Producent { get; set; }
 
-        public int GlobalnyNumerJednostkiHandlowej{ get; set; }
+        public int GlobalnyNumerJednostkiHandlowej { get; set; }
 
         public int NumerPartiiProdukcyjnej { get; set; }
 
         public float Cena { get; set; }
 
-        public virtual ICollection<StanLodowki> StanLodowki{ get; set; }
+        public virtual ICollection<StanLodowki> StanLodowki { get; set; }
 
         private ICollection<ZamowienieProdukt> ZamowienieProdukty { get; } = new List<ZamowienieProdukt>();
 
         public virtual ICollection<UpodobanieUzytkownika> UpodobanieUzytkownikow { get; set; }
 
         [NotMapped]
-        public ICollection<Zamowienie> Zamowienia { get; }
-
+        public ICollection<Zamowienie> Zamowienia { get; set; }
     }
 }

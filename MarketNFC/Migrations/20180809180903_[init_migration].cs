@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MarketNFC.Migrations
 {
-    public partial class init : Migration
+    public partial class init_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,6 +35,7 @@ namespace MarketNFC.Migrations
                     Id = table.Column<string>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
@@ -43,7 +44,7 @@ namespace MarketNFC.Migrations
                     Imie = table.Column<string>(nullable: true),
                     Nazwisko = table.Column<string>(nullable: true),
                     DataRejestracji = table.Column<DateTime>(nullable: false),
-                    Email = table.Column<string>(maxLength: 256, nullable: true)
+                    LiczbaZamowien = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -237,6 +238,7 @@ namespace MarketNFC.Migrations
                 name: "UpodobaniaUzytkownika",
                 columns: table => new
                 {
+                    WspolczynnikUpodobania = table.Column<float>(nullable: false),
                     UzytkownikId = table.Column<string>(nullable: false),
                     ProduktId = table.Column<int>(nullable: false)
                 },
@@ -338,13 +340,13 @@ namespace MarketNFC.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DataRejestracji", "Email", "EmailConfirmed", "Imie", "LockoutEnabled", "LockoutEnd", "Nazwisko", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DataRejestracji", "Email", "EmailConfirmed", "Imie", "LiczbaZamowien", "LockoutEnabled", "LockoutEnd", "Nazwisko", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "dee71fe8-917b-4bf4-ae91-c83149a76daf", new DateTime(2018, 7, 29, 23, 8, 56, 411, DateTimeKind.Local), null, false, "Darek", false, null, "Malysz", null, null, null, null, false, null, false, null },
-                    { "2", 0, "1b1e232c-e581-4cdc-ba5c-d9633866b0a8", new DateTime(2018, 7, 29, 23, 8, 56, 411, DateTimeKind.Local), null, false, "Misia", false, null, "Mis", null, null, null, null, false, null, false, null },
-                    { "3", 0, "9134dc56-a682-4751-a243-b675d2f0d613", new DateTime(2018, 7, 29, 23, 8, 56, 411, DateTimeKind.Local), null, false, "Sebke", false, null, "Szczepankiewicz", null, null, null, null, false, null, false, null },
-                    { "4", 0, "6af0bca6-74ea-4ae1-98b1-a8e3adaad0cd", new DateTime(2018, 7, 29, 23, 8, 56, 411, DateTimeKind.Local), null, false, "MIchal", false, null, "Kozubek", null, null, null, null, false, null, false, null }
+                    { "1", 0, "b943dd6a-d628-4926-945c-22b9c5c0c141", new DateTime(2018, 8, 9, 20, 9, 3, 272, DateTimeKind.Local), "szewcu222@gmail.com", false, "Darek", 0m, false, null, "Malysz", null, null, null, null, false, null, false, null },
+                    { "2", 0, "70593a8e-be3b-4663-920c-13ca3828319a", new DateTime(2018, 8, 9, 20, 9, 3, 272, DateTimeKind.Local), "miska@gmail.com", false, "Misia", 0m, false, null, "Mis", null, null, null, null, false, null, false, null },
+                    { "3", 0, "ce3a9bfa-9488-4a7b-acc3-f4de18f086cd", new DateTime(2018, 8, 9, 20, 9, 3, 272, DateTimeKind.Local), "sobek44@gmail.com", false, "Sebke", 0m, false, null, "Szczepankiewicz", null, null, null, null, false, null, false, null },
+                    { "4", 0, "613717e8-b3a3-4f2d-9eaf-45e93e766f0b", new DateTime(2018, 8, 9, 20, 9, 3, 272, DateTimeKind.Local), "kozula@gmail.com", false, "MIchal", 0m, false, null, "Kozubek", null, null, null, null, false, null, false, null }
                 });
 
             migrationBuilder.InsertData(
@@ -362,11 +364,11 @@ namespace MarketNFC.Migrations
                 columns: new[] { "ProduktId", "Cena", "DataWaznosci", "GlobalnyNumerJednostkiHandlowej", "Nazwa", "NumerPartiiProdukcyjnej", "Producent", "RFIDTag" },
                 values: new object[,]
                 {
-                    { 1, 5f, new DateTime(2018, 7, 29, 23, 8, 56, 413, DateTimeKind.Local), 1111, "SZAMPON", 1111, "SYOSS", "1111" },
-                    { 2, 10f, new DateTime(2018, 7, 29, 23, 8, 56, 413, DateTimeKind.Local), 2222, "COLA", 2222, "SYOSS", "2222" },
-                    { 3, 15f, new DateTime(2018, 7, 29, 23, 8, 56, 413, DateTimeKind.Local), 3333, "SZAMPON", 3333, "SYOSS", "3333" },
-                    { 4, 20f, new DateTime(2018, 7, 29, 23, 8, 56, 413, DateTimeKind.Local), 4444, "PEPSI", 4444, "COLACOMP", "4444" },
-                    { 5, 30f, new DateTime(2018, 7, 29, 23, 8, 56, 413, DateTimeKind.Local), 5555, "PAWO", 5555, "HARNAS", "5555" }
+                    { 1, 5f, new DateTime(2018, 8, 9, 20, 9, 3, 275, DateTimeKind.Local), 1111, "SZAMPON", 1111, "SYOSS", "1111" },
+                    { 2, 10f, new DateTime(2018, 8, 9, 20, 9, 3, 275, DateTimeKind.Local), 2222, "COLA", 2222, "SYOSS", "2222" },
+                    { 3, 15f, new DateTime(2018, 8, 9, 20, 9, 3, 275, DateTimeKind.Local), 3333, "SZAMPON", 3333, "SYOSS", "3333" },
+                    { 4, 20f, new DateTime(2018, 8, 9, 20, 9, 3, 275, DateTimeKind.Local), 4444, "PEPSI", 4444, "COLACOMP", "4444" },
+                    { 5, 30f, new DateTime(2018, 8, 9, 20, 9, 3, 275, DateTimeKind.Local), 5555, "PAWO", 5555, "HARNAS", "5555" }
                 });
 
             migrationBuilder.InsertData(
@@ -374,25 +376,25 @@ namespace MarketNFC.Migrations
                 columns: new[] { "LodowkaId", "DataAktualizacji", "GrupaId", "Pojemnosc" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2018, 7, 29, 23, 8, 56, 409, DateTimeKind.Local), 1, 10 },
-                    { 2, new DateTime(2018, 7, 29, 23, 8, 56, 410, DateTimeKind.Local), 2, 15 },
-                    { 3, new DateTime(2018, 7, 29, 23, 8, 56, 410, DateTimeKind.Local), 3, 12 }
+                    { 1, new DateTime(2018, 8, 9, 20, 9, 3, 270, DateTimeKind.Local), 1, 10 },
+                    { 2, new DateTime(2018, 8, 9, 20, 9, 3, 271, DateTimeKind.Local), 2, 15 },
+                    { 3, new DateTime(2018, 8, 9, 20, 9, 3, 271, DateTimeKind.Local), 3, 12 }
                 });
 
             migrationBuilder.InsertData(
                 table: "UpodobaniaUzytkownika",
-                columns: new[] { "UzytkownikId", "ProduktId" },
+                columns: new[] { "UzytkownikId", "ProduktId", "WspolczynnikUpodobania" },
                 values: new object[,]
                 {
-                    { "1", 1 },
-                    { "1", 2 },
-                    { "1", 3 },
-                    { "2", 1 },
-                    { "2", 2 },
-                    { "2", 3 },
-                    { "3", 1 },
-                    { "3", 2 },
-                    { "3", 3 }
+                    { "1", 1, 0f },
+                    { "1", 2, 0f },
+                    { "1", 3, 0f },
+                    { "2", 1, 0f },
+                    { "2", 2, 0f },
+                    { "2", 3, 0f },
+                    { "3", 1, 0f },
+                    { "3", 2, 0f },
+                    { "3", 3, 0f }
                 });
 
             migrationBuilder.InsertData(
