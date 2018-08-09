@@ -95,12 +95,12 @@ namespace MarketNFC.Data
 
             builder.Entity<ZamowienieProdukt>()
                 .HasOne(zp => zp.Zamowienie)
-                .WithMany(z => z.ZamowienieProdukty)
+                .WithMany("ZamowienieProdukty")
                 .HasForeignKey(zp => zp.ZamowienieId);
 
             builder.Entity<ZamowienieProdukt>()
                 .HasOne(zp => zp.Produkt)
-                .WithMany(p => p.ZamowienieProdukty)
+                .WithMany("ZamowienieProdukty")
                 .HasForeignKey(zp => zp.ProduktId);
 
             builder.Seed();

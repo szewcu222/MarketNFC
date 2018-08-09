@@ -122,5 +122,36 @@ namespace MarketNFC.Controllers
         {
             return _context.Zamowienia.Any(e => e.ZamowienieId == id);
         }
+
+        // GET: api/Zamowienie/user/5
+        [HttpGet("user/{id}")]
+        public async Task<IActionResult> GetZamowienieUzytkownika([FromRoute] string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //var zamowienie = await _context.Zamowienia.FindAsync(id);
+
+            var zamowienie = _context.Zamowienia
+                .Where(z => z.UzytkownikId == id);
+            foreach (var zam in zamowienie)
+            {
+                var produkt = _context.Produkty
+                    //.Where(p => p.ZamowienieProdukty == zam.ZamowienieProdukty)
+                    .Include("ZamowienieProdukty.Zamowienie")
+                    .FirstOrDefault();
+                zam.Produkty.Add(produkt);
+            }
+
+
+            if (zamowienie == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(zamowienie);
+        }
     }
 }

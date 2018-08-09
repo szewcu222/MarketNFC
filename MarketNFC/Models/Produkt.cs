@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarketNFC.Facades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,13 +11,19 @@ namespace MarketNFC.Models
     [Table("Produkt")]
     public class Produkt
     {
+        //public Produkt()
+        //{
+        //    StanLodowki = new HashSet<StanLodowki>();
+        //    ZamowienieProdukty = new HashSet<ZamowienieProdukt>();
+        //    UpodobanieUzytkownikow = new HashSet<UpodobanieUzytkownika>();
+        //}
+
         public Produkt()
         {
+            Zamowienia = new JoinCollectionFacade<Zamowienie, Produkt, ZamowienieProdukt>(this, ZamowienieProdukty);
             StanLodowki = new HashSet<StanLodowki>();
-            ZamowienieProdukty = new HashSet<ZamowienieProdukt>();
             UpodobanieUzytkownikow = new HashSet<UpodobanieUzytkownika>();
         }
-
 
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
@@ -39,9 +46,12 @@ namespace MarketNFC.Models
 
         public virtual ICollection<StanLodowki> StanLodowki{ get; set; }
 
-        public virtual ICollection<ZamowienieProdukt> ZamowienieProdukty{ get; set; }
+        private ICollection<ZamowienieProdukt> ZamowienieProdukty { get; } = new List<ZamowienieProdukt>();
 
         public virtual ICollection<UpodobanieUzytkownika> UpodobanieUzytkownikow { get; set; }
+
+        [NotMapped]
+        public ICollection<Zamowienie> Zamowienia { get; }
 
     }
 }

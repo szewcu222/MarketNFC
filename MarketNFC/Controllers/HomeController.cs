@@ -76,7 +76,7 @@ namespace MarketNFC.Controllers
         public List<Zamowienie> Zamowienie()
         {
             var p = _db.Produkty.Find(1);
-            var zam = _db.Zamowienia.Find(1);
+            
 
             //var q = _db.Zamowienia
             //    .Include(z => z.ZamowienieProdukty)
@@ -103,27 +103,44 @@ namespace MarketNFC.Controllers
             // trzeba skonfigurowac zeby mozna bylo z zewnatrz pytac na localhosta .vs/config/applicationhost.config
             // jeden z pierwszych commitow Added config to allow remote connection
 
-            var u = zam.Uzytkownik;
+            //var u = zam.Uzytkownik;
 
-            var posts = _db.Zamowienia
-                .Include(e => e.ZamowienieProdukty)
-                .ThenInclude(e => e.Produkt)
+            var zamowienia = _db.Zamowienia
+                //.Include(e => e.Uzytkownik)
+                //.Include(l => l.Lodowka)
+                //.Include(e => e.ZamowienieProdukty)
+                //.ThenInclude(e => e.Produkt)
                 .ToList();
 
-            foreach (var post in posts)
+            var listProd = new List<Produkt>();
+            foreach (var zamow in zamowienia)
             {
-                Console.WriteLine($"  Post {post.ZamowienieId}");
-                foreach (var tag in post.ZamowienieProdukty.Select(e => e.Produkt))
-                {
-                    Console.WriteLine($"    Tag {tag.RFIDTag}");
-                }
+                //zamow.ZamowienieProdukty
+
+
+                //foreach (var tag in post.ZamowienieProdukty.Select(e => e.Produkt))
+                //{
+                //    //Console.WriteLine($"    Tag {tag.RFIDTag}");
+                //}
             }
 
+            //var prod = _db.ZamowieniaProdukty
+            //    .Where(z => )
+            //    .wher
+            //    .Include(p => p.Produkt)
+
+
+
+            var zam = _db.Zamowienia.
+                Include("ZamowienieProdukty.Produkt")
+                .ToList();
+
+            //_db.Entry(zam).Collection(b => b.)
 
 
             //_db.Zamowienia.FirstOrDefault(u => u.ZamowienieProdukty.FirstOrDefault(f => f.ZamowienieId == 1));
 
-            return posts;
+            return zam;
             //return Json(zampro);
         }
         public JsonResult Produkty()

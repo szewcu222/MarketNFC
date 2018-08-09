@@ -39,6 +39,7 @@ namespace MarketNFC
 
             services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
                 });
         }
 
