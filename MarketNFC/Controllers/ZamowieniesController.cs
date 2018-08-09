@@ -25,7 +25,8 @@ namespace MarketNFC.Controllers
         [HttpGet]
         public IEnumerable<Zamowienie> GetZamowienia()
         {
-            return _context.Zamowienia;
+            return _context.Zamowienia
+                .Include("ZamowienieProdukty.Produkt");
         }
 
         // GET: api/Zamowienie/5
@@ -37,7 +38,9 @@ namespace MarketNFC.Controllers
                 return BadRequest(ModelState);
             }
 
-            var zamowienie = await _context.Zamowienia.FindAsync(id);
+            var zamowienie = _context.Zamowienia
+                .Include("ZamowienieProdukty.Produkt")
+                .Where(z => z.ZamowienieId == id);
 
             if (zamowienie == null)
             {
@@ -135,15 +138,18 @@ namespace MarketNFC.Controllers
             //var zamowienie = await _context.Zamowienia.FindAsync(id);
 
             var zamowienie = _context.Zamowienia
-                .Where(z => z.UzytkownikId == id);
-            foreach (var zam in zamowienie)
-            {
-                var produkt = _context.Produkty
-                    //.Where(p => p.ZamowienieProdukty == zam.ZamowienieProdukty)
-                    .Include("ZamowienieProdukty.Zamowienie")
-                    .FirstOrDefault();
-                zam.Produkty.Add(produkt);
-            }
+                .Where(z => z.UzytkownikId == id)
+                .Include("ZamowienieProdukty.Produkt");
+                //.Include(e => e.)
+
+            //foreach (var zam in zamowienie)
+            //{
+            //    var produkt = _context.Produkty
+            //        //.Where(p => p.ZamowienieProdukty == zam.ZamowienieProdukty)
+            //        .Include("ZamowienieProdukty.Zamowienie")
+            //        .FirstOrDefault();
+            //    zam.Produkty.Add(produkt);
+            //}
 
 
             if (zamowienie == null)
