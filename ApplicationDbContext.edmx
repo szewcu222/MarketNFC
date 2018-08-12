@@ -1,0 +1,966 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Edmx Version="3.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <Runtime>
+    <ConceptualModels>
+      <Schema Namespace="NFC_MVC.DAL" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Grupa" customannotation:ClrType="NFC_MVC.Models.Grupa, NFC_MVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="GrupaId" />
+          </Key>
+          <Property Name="GrupaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Lodowka" Relationship="Self.Lodowka_Grupa" FromRole="Lodowka_Grupa_Target" ToRole="Lodowka_Grupa_Source" />
+          <NavigationProperty Name="Uzytkownicy" Relationship="Self.Uzytkownik_Grupa" FromRole="Uzytkownik_Grupa_Target" ToRole="Uzytkownik_Grupa_Source" />
+        </EntityType>
+        <EntityType Name="Lodowka" customannotation:ClrType="NFC_MVC.Models.Lodowka, NFC_MVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="LodowkaId" />
+          </Key>
+          <Property Name="LodowkaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pojemnosc" Type="Int32" Nullable="false" />
+          <Property Name="DataAktualizacji" Type="DateTime" Nullable="false" />
+          <Property Name="GrupaId" Type="Int32" />
+          <NavigationProperty Name="Grupa" Relationship="Self.Lodowka_Grupa" FromRole="Lodowka_Grupa_Source" ToRole="Lodowka_Grupa_Target" />
+          <NavigationProperty Name="StanLodowki" Relationship="Self.StanLodowki_Lodowka" FromRole="StanLodowki_Lodowka_Target" ToRole="StanLodowki_Lodowka_Source" />
+          <NavigationProperty Name="Zamowienia" Relationship="Self.Zamowienie_Lodowka" FromRole="Zamowienie_Lodowka_Target" ToRole="Zamowienie_Lodowka_Source" />
+        </EntityType>
+        <EntityType Name="StanLodowki" customannotation:ClrType="NFC_MVC.Models.StanLodowki, NFC_MVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="LodowkaId" />
+            <PropertyRef Name="ProduktId" />
+          </Key>
+          <Property Name="LodowkaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="ProduktId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Ilosc" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Lodowka" Relationship="Self.StanLodowki_Lodowka" FromRole="StanLodowki_Lodowka_Source" ToRole="StanLodowki_Lodowka_Target" />
+          <NavigationProperty Name="Produkt" Relationship="Self.Produkt_StanLodowki" FromRole="Produkt_StanLodowki_Target" ToRole="Produkt_StanLodowki_Source" />
+        </EntityType>
+        <EntityType Name="Produkt" customannotation:ClrType="NFC_MVC.Models.Produkt, NFC_MVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ProduktId" />
+          </Key>
+          <Property Name="ProduktId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RFIDTag" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DataWaznosci" Type="DateTime" Nullable="false" />
+          <Property Name="Producent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GlobalnyNumerJednostkiHandlowej" Type="Int32" Nullable="false" />
+          <Property Name="NumerPartiiProdukcyjnej" Type="Int32" Nullable="false" />
+          <Property Name="Cena" Type="Single" Nullable="false" />
+          <NavigationProperty Name="StanLodowki" Relationship="Self.Produkt_StanLodowki" FromRole="Produkt_StanLodowki_Source" ToRole="Produkt_StanLodowki_Target" />
+          <NavigationProperty Name="UpodobanieUzytkownikow" Relationship="Self.UpodobanieUzytkownika_Produkt" FromRole="UpodobanieUzytkownika_Produkt_Target" ToRole="UpodobanieUzytkownika_Produkt_Source" />
+          <NavigationProperty Name="Zamowienia" Relationship="Self.Zamowienie_Produkty" FromRole="Zamowienie_Produkty_Target" ToRole="Zamowienie_Produkty_Source" />
+        </EntityType>
+        <EntityType Name="UpodobanieUzytkownika" customannotation:ClrType="NFC_MVC.Models.UpodobanieUzytkownika, NFC_MVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="UzytkownikId" />
+            <PropertyRef Name="ProduktId" />
+          </Key>
+          <Property Name="UzytkownikId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="ProduktId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Ilosc" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Produkt" Relationship="Self.UpodobanieUzytkownika_Produkt" FromRole="UpodobanieUzytkownika_Produkt_Source" ToRole="UpodobanieUzytkownika_Produkt_Target" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.Uzytkownik_UpodobaniaUzytkownika" FromRole="Uzytkownik_UpodobaniaUzytkownika_Target" ToRole="Uzytkownik_UpodobaniaUzytkownika_Source" />
+        </EntityType>
+        <EntityType Name="Uzytkownik" customannotation:ClrType="NFC_MVC.Models.Uzytkownik, NFC_MVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Imie" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Nazwisko" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataRejestracji" Type="DateTime" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Claims" Relationship="Self.Uzytkownik_Claims" FromRole="Uzytkownik_Claims_Source" ToRole="Uzytkownik_Claims_Target" />
+          <NavigationProperty Name="Grupa" Relationship="Self.Uzytkownik_Grupa" FromRole="Uzytkownik_Grupa_Source" ToRole="Uzytkownik_Grupa_Target" />
+          <NavigationProperty Name="Logins" Relationship="Self.Uzytkownik_Logins" FromRole="Uzytkownik_Logins_Source" ToRole="Uzytkownik_Logins_Target" />
+          <NavigationProperty Name="Roles" Relationship="Self.Uzytkownik_Roles" FromRole="Uzytkownik_Roles_Source" ToRole="Uzytkownik_Roles_Target" />
+          <NavigationProperty Name="UpodobaniaUzytkownika" Relationship="Self.Uzytkownik_UpodobaniaUzytkownika" FromRole="Uzytkownik_UpodobaniaUzytkownika_Source" ToRole="Uzytkownik_UpodobaniaUzytkownika_Target" />
+          <NavigationProperty Name="Zamowienia" Relationship="Self.Zamowienie_Uzytkownik" FromRole="Zamowienie_Uzytkownik_Target" ToRole="Zamowienie_Uzytkownik_Source" />
+        </EntityType>
+        <EntityType Name="IdentityUserClaim" customannotation:ClrType="Microsoft.AspNet.Identity.EntityFramework.IdentityUserClaim, Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="IdentityUserLogin" customannotation:ClrType="Microsoft.AspNet.Identity.EntityFramework.IdentityUserLogin, Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityUserRole" customannotation:ClrType="Microsoft.AspNet.Identity.EntityFramework.IdentityUserRole, Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zamowienie" customannotation:ClrType="NFC_MVC.Models.Zamowienie, NFC_MVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ZamowienieId" />
+          </Key>
+          <Property Name="ZamowienieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataZamowienia" Type="DateTime" Nullable="false" />
+          <Property Name="DataDostarczenia" Type="DateTime" Nullable="false" />
+          <Property Name="TypZamowienia" Type="Self.TypZamowienia" Nullable="false" />
+          <Property Name="UzytkownikId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LodowkaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Lodowka" Relationship="Self.Zamowienie_Lodowka" FromRole="Zamowienie_Lodowka_Source" ToRole="Zamowienie_Lodowka_Target" />
+          <NavigationProperty Name="Produkty" Relationship="Self.Zamowienie_Produkty" FromRole="Zamowienie_Produkty_Source" ToRole="Zamowienie_Produkty_Target" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.Zamowienie_Uzytkownik" FromRole="Zamowienie_Uzytkownik_Source" ToRole="Zamowienie_Uzytkownik_Target" />
+        </EntityType>
+        <EntityType Name="IdentityRole" customannotation:ClrType="Microsoft.AspNet.Identity.EntityFramework.IdentityRole, Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.IdentityRole_Users" FromRole="IdentityRole_Users_Source" ToRole="IdentityRole_Users_Target" />
+        </EntityType>
+        <EnumType Name="TypZamowienia" IsFlags="false" customannotation:ClrType="NFC_MVC.Models.Enums.TypZamowienia, NFC_MVC, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+          <Member Name="SysOrder" Value="0" />
+          <Member Name="UserOrder" Value="1" />
+        </EnumType>
+        <Association Name="Lodowka_Grupa">
+          <End Role="Lodowka_Grupa_Source" Type="Self.Lodowka" Multiplicity="1" />
+          <End Role="Lodowka_Grupa_Target" Type="Self.Grupa" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Lodowka_Grupa_Source">
+              <PropertyRef Name="LodowkaId" />
+            </Principal>
+            <Dependent Role="Lodowka_Grupa_Target">
+              <PropertyRef Name="GrupaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StanLodowki_Lodowka">
+          <End Role="StanLodowki_Lodowka_Source" Type="Self.StanLodowki" Multiplicity="*" />
+          <End Role="StanLodowki_Lodowka_Target" Type="Self.Lodowka" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="StanLodowki_Lodowka_Target">
+              <PropertyRef Name="LodowkaId" />
+            </Principal>
+            <Dependent Role="StanLodowki_Lodowka_Source">
+              <PropertyRef Name="LodowkaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Produkt_StanLodowki">
+          <End Role="Produkt_StanLodowki_Source" Type="Self.Produkt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Produkt_StanLodowki_Target" Type="Self.StanLodowki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produkt_StanLodowki_Source">
+              <PropertyRef Name="ProduktId" />
+            </Principal>
+            <Dependent Role="Produkt_StanLodowki_Target">
+              <PropertyRef Name="ProduktId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UpodobanieUzytkownika_Produkt">
+          <End Role="UpodobanieUzytkownika_Produkt_Source" Type="Self.UpodobanieUzytkownika" Multiplicity="*" />
+          <End Role="UpodobanieUzytkownika_Produkt_Target" Type="Self.Produkt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="UpodobanieUzytkownika_Produkt_Target">
+              <PropertyRef Name="ProduktId" />
+            </Principal>
+            <Dependent Role="UpodobanieUzytkownika_Produkt_Source">
+              <PropertyRef Name="ProduktId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_Claims">
+          <End Role="Uzytkownik_Claims_Source" Type="Self.Uzytkownik" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Uzytkownik_Claims_Target" Type="Self.IdentityUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik_Claims_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Uzytkownik_Claims_Target">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_Grupa">
+          <End Role="Uzytkownik_Grupa_Source" Type="Self.Uzytkownik" Multiplicity="*" />
+          <End Role="Uzytkownik_Grupa_Target" Type="Self.Grupa" Multiplicity="*" />
+        </Association>
+        <Association Name="Uzytkownik_Logins">
+          <End Role="Uzytkownik_Logins_Source" Type="Self.Uzytkownik" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Uzytkownik_Logins_Target" Type="Self.IdentityUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik_Logins_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Uzytkownik_Logins_Target">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_Roles">
+          <End Role="Uzytkownik_Roles_Source" Type="Self.Uzytkownik" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Uzytkownik_Roles_Target" Type="Self.IdentityUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik_Roles_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Uzytkownik_Roles_Target">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_UpodobaniaUzytkownika">
+          <End Role="Uzytkownik_UpodobaniaUzytkownika_Source" Type="Self.Uzytkownik" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Uzytkownik_UpodobaniaUzytkownika_Target" Type="Self.UpodobanieUzytkownika" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik_UpodobaniaUzytkownika_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Uzytkownik_UpodobaniaUzytkownika_Target">
+              <PropertyRef Name="UzytkownikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Zamowienie_Lodowka">
+          <End Role="Zamowienie_Lodowka_Source" Type="Self.Zamowienie" Multiplicity="*" />
+          <End Role="Zamowienie_Lodowka_Target" Type="Self.Lodowka" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Zamowienie_Lodowka_Target">
+              <PropertyRef Name="LodowkaId" />
+            </Principal>
+            <Dependent Role="Zamowienie_Lodowka_Source">
+              <PropertyRef Name="LodowkaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Zamowienie_Produkty">
+          <End Role="Zamowienie_Produkty_Source" Type="Self.Zamowienie" Multiplicity="*" />
+          <End Role="Zamowienie_Produkty_Target" Type="Self.Produkt" Multiplicity="*" />
+        </Association>
+        <Association Name="Zamowienie_Uzytkownik">
+          <End Role="Zamowienie_Uzytkownik_Source" Type="Self.Zamowienie" Multiplicity="*" />
+          <End Role="Zamowienie_Uzytkownik_Target" Type="Self.Uzytkownik" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Zamowienie_Uzytkownik_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zamowienie_Uzytkownik_Source">
+              <PropertyRef Name="UzytkownikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IdentityRole_Users">
+          <End Role="IdentityRole_Users_Source" Type="Self.IdentityRole" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityRole_Users_Target" Type="Self.IdentityUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdentityRole_Users_Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityRole_Users_Target">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ApplicationDbContext" customannotation:UseClrTypes="true">
+          <EntitySet Name="Grupy" EntityType="Self.Grupa" />
+          <EntitySet Name="Lodowki" EntityType="Self.Lodowka" />
+          <EntitySet Name="StanyLodowek" EntityType="Self.StanLodowki" />
+          <EntitySet Name="Produkty" EntityType="Self.Produkt" />
+          <EntitySet Name="UpodobaniaUzytkownikow" EntityType="Self.UpodobanieUzytkownika" />
+          <EntitySet Name="Users" EntityType="Self.Uzytkownik" />
+          <EntitySet Name="IdentityUserClaims" EntityType="Self.IdentityUserClaim" />
+          <EntitySet Name="IdentityUserLogins" EntityType="Self.IdentityUserLogin" />
+          <EntitySet Name="IdentityUserRoles" EntityType="Self.IdentityUserRole" />
+          <EntitySet Name="Zamowienia" EntityType="Self.Zamowienie" />
+          <EntitySet Name="Roles" EntityType="Self.IdentityRole" />
+          <AssociationSet Name="Lodowka_Grupa" Association="Self.Lodowka_Grupa">
+            <End Role="Lodowka_Grupa_Source" EntitySet="Lodowki" />
+            <End Role="Lodowka_Grupa_Target" EntitySet="Grupy" />
+          </AssociationSet>
+          <AssociationSet Name="StanLodowki_Lodowka" Association="Self.StanLodowki_Lodowka">
+            <End Role="StanLodowki_Lodowka_Source" EntitySet="StanyLodowek" />
+            <End Role="StanLodowki_Lodowka_Target" EntitySet="Lodowki" />
+          </AssociationSet>
+          <AssociationSet Name="Produkt_StanLodowki" Association="Self.Produkt_StanLodowki">
+            <End Role="Produkt_StanLodowki_Source" EntitySet="Produkty" />
+            <End Role="Produkt_StanLodowki_Target" EntitySet="StanyLodowek" />
+          </AssociationSet>
+          <AssociationSet Name="UpodobanieUzytkownika_Produkt" Association="Self.UpodobanieUzytkownika_Produkt">
+            <End Role="UpodobanieUzytkownika_Produkt_Source" EntitySet="UpodobaniaUzytkownikow" />
+            <End Role="UpodobanieUzytkownika_Produkt_Target" EntitySet="Produkty" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_Claims" Association="Self.Uzytkownik_Claims">
+            <End Role="Uzytkownik_Claims_Source" EntitySet="Users" />
+            <End Role="Uzytkownik_Claims_Target" EntitySet="IdentityUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_Grupa" Association="Self.Uzytkownik_Grupa">
+            <End Role="Uzytkownik_Grupa_Source" EntitySet="Users" />
+            <End Role="Uzytkownik_Grupa_Target" EntitySet="Grupy" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_Logins" Association="Self.Uzytkownik_Logins">
+            <End Role="Uzytkownik_Logins_Source" EntitySet="Users" />
+            <End Role="Uzytkownik_Logins_Target" EntitySet="IdentityUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_Roles" Association="Self.Uzytkownik_Roles">
+            <End Role="Uzytkownik_Roles_Source" EntitySet="Users" />
+            <End Role="Uzytkownik_Roles_Target" EntitySet="IdentityUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_UpodobaniaUzytkownika" Association="Self.Uzytkownik_UpodobaniaUzytkownika">
+            <End Role="Uzytkownik_UpodobaniaUzytkownika_Source" EntitySet="Users" />
+            <End Role="Uzytkownik_UpodobaniaUzytkownika_Target" EntitySet="UpodobaniaUzytkownikow" />
+          </AssociationSet>
+          <AssociationSet Name="Zamowienie_Lodowka" Association="Self.Zamowienie_Lodowka">
+            <End Role="Zamowienie_Lodowka_Source" EntitySet="Zamowienia" />
+            <End Role="Zamowienie_Lodowka_Target" EntitySet="Lodowki" />
+          </AssociationSet>
+          <AssociationSet Name="Zamowienie_Produkty" Association="Self.Zamowienie_Produkty">
+            <End Role="Zamowienie_Produkty_Source" EntitySet="Zamowienia" />
+            <End Role="Zamowienie_Produkty_Target" EntitySet="Produkty" />
+          </AssociationSet>
+          <AssociationSet Name="Zamowienie_Uzytkownik" Association="Self.Zamowienie_Uzytkownik">
+            <End Role="Zamowienie_Uzytkownik_Source" EntitySet="Zamowienia" />
+            <End Role="Zamowienie_Uzytkownik_Target" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="IdentityRole_Users" Association="Self.IdentityRole_Users">
+            <End Role="IdentityRole_Users_Source" EntitySet="Roles" />
+            <End Role="IdentityRole_Users_Target" EntitySet="IdentityUserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </ConceptualModels>
+    <Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CodeFirstDatabase" CdmEntityContainer="ApplicationDbContext">
+          <EntitySetMapping Name="Grupy">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.Grupa">
+              <MappingFragment StoreEntitySet="Grupa">
+                <ScalarProperty Name="GrupaId" ColumnName="GrupaId" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lodowki">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.Lodowka">
+              <MappingFragment StoreEntitySet="Lodowka">
+                <ScalarProperty Name="LodowkaId" ColumnName="LodowkaId" />
+                <ScalarProperty Name="Pojemnosc" ColumnName="Pojemnosc" />
+                <ScalarProperty Name="DataAktualizacji" ColumnName="DataAktualizacji" />
+                <ScalarProperty Name="GrupaId" ColumnName="GrupaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StanyLodowek">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.StanLodowki">
+              <MappingFragment StoreEntitySet="StanLodowki">
+                <ScalarProperty Name="LodowkaId" ColumnName="LodowkaId" />
+                <ScalarProperty Name="ProduktId" ColumnName="ProduktId" />
+                <ScalarProperty Name="Ilosc" ColumnName="Ilosc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Produkty">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.Produkt">
+              <MappingFragment StoreEntitySet="Produkt">
+                <ScalarProperty Name="ProduktId" ColumnName="ProduktId" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="RFIDTag" ColumnName="RFIDTag" />
+                <ScalarProperty Name="DataWaznosci" ColumnName="DataWaznosci" />
+                <ScalarProperty Name="Producent" ColumnName="Producent" />
+                <ScalarProperty Name="GlobalnyNumerJednostkiHandlowej" ColumnName="GlobalnyNumerJednostkiHandlowej" />
+                <ScalarProperty Name="NumerPartiiProdukcyjnej" ColumnName="NumerPartiiProdukcyjnej" />
+                <ScalarProperty Name="Cena" ColumnName="Cena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UpodobaniaUzytkownikow">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.UpodobanieUzytkownika">
+              <MappingFragment StoreEntitySet="UpodobanieUzytkownika">
+                <ScalarProperty Name="UzytkownikId" ColumnName="UzytkownikId" />
+                <ScalarProperty Name="ProduktId" ColumnName="ProduktId" />
+                <ScalarProperty Name="Ilosc" ColumnName="Ilosc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.Uzytkownik">
+              <MappingFragment StoreEntitySet="Uzytkownik">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="DataRejestracji" ColumnName="DataRejestracji" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IdentityUserClaims">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.IdentityUserClaim">
+              <MappingFragment StoreEntitySet="IdentityUserClaim">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IdentityUserLogins">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.IdentityUserLogin">
+              <MappingFragment StoreEntitySet="IdentityUserLogin">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IdentityUserRoles">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.IdentityUserRole">
+              <MappingFragment StoreEntitySet="IdentityUserRole">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zamowienia">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.Zamowienie">
+              <MappingFragment StoreEntitySet="Zamowienie">
+                <ScalarProperty Name="ZamowienieId" ColumnName="ZamowienieId" />
+                <ScalarProperty Name="DataZamowienia" ColumnName="DataZamowienia" />
+                <ScalarProperty Name="DataDostarczenia" ColumnName="DataDostarczenia" />
+                <ScalarProperty Name="TypZamowienia" ColumnName="TypZamowienia" />
+                <ScalarProperty Name="UzytkownikId" ColumnName="UzytkownikId" />
+                <ScalarProperty Name="LodowkaId" ColumnName="LodowkaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="NFC_MVC.DAL.IdentityRole">
+              <MappingFragment StoreEntitySet="IdentityRole">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Uzytkownik_Grupa" TypeName="NFC_MVC.DAL.Uzytkownik_Grupa" StoreEntitySet="UzytkownikGrupa">
+            <EndProperty Name="Uzytkownik_Grupa_Source">
+              <ScalarProperty Name="Id" ColumnName="Uzytkownik_Id" />
+            </EndProperty>
+            <EndProperty Name="Uzytkownik_Grupa_Target">
+              <ScalarProperty Name="GrupaId" ColumnName="Grupa_GrupaId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Zamowienie_Produkty" TypeName="NFC_MVC.DAL.Zamowienie_Produkty" StoreEntitySet="ZamowienieProdukt">
+            <EndProperty Name="Zamowienie_Produkty_Source">
+              <ScalarProperty Name="ZamowienieId" ColumnName="Zamowienie_ZamowienieId" />
+            </EndProperty>
+            <EndProperty Name="Zamowienie_Produkty_Target">
+              <ScalarProperty Name="ProduktId" ColumnName="Produkt_ProduktId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </Mappings>
+    <StorageModels>
+      <Schema Namespace="CodeFirstDatabaseSchema" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Grupa">
+          <Key>
+            <PropertyRef Name="GrupaId" />
+          </Key>
+          <Property Name="GrupaId" Type="int" customannotation:Index="{ Name: IX_GrupaId, Order: 0 }" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lodowka" customannotation:Index="{ }">
+          <Key>
+            <PropertyRef Name="LodowkaId" />
+          </Key>
+          <Property Name="LodowkaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pojemnosc" Type="int" Nullable="false" />
+          <Property Name="DataAktualizacji" Type="datetime" Nullable="false" />
+          <Property Name="GrupaId" Type="int" Nullable="true" />
+        </EntityType>
+        <EntityType Name="StanLodowki">
+          <Key>
+            <PropertyRef Name="LodowkaId" />
+            <PropertyRef Name="ProduktId" />
+          </Key>
+          <Property Name="LodowkaId" Type="int" customannotation:Index="{ Name: IX_LodowkaId, Order: 0 }" Nullable="false" />
+          <Property Name="ProduktId" Type="int" customannotation:Index="{ Name: IX_ProduktId, Order: 0 }" Nullable="false" />
+          <Property Name="Ilosc" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Produkt">
+          <Key>
+            <PropertyRef Name="ProduktId" />
+          </Key>
+          <Property Name="ProduktId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RFIDTag" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DataWaznosci" Type="datetime" Nullable="false" />
+          <Property Name="Producent" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="GlobalnyNumerJednostkiHandlowej" Type="int" Nullable="false" />
+          <Property Name="NumerPartiiProdukcyjnej" Type="int" Nullable="false" />
+          <Property Name="Cena" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UpodobanieUzytkownika">
+          <Key>
+            <PropertyRef Name="UzytkownikId" />
+            <PropertyRef Name="ProduktId" />
+          </Key>
+          <Property Name="UzytkownikId" Type="nvarchar" customannotation:Index="{ Name: IX_UzytkownikId, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="ProduktId" Type="int" customannotation:Index="{ Name: IX_ProduktId, Order: 0 }" Nullable="false" />
+          <Property Name="Ilosc" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Uzytkownik">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Imie" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Nazwisko" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="DataRejestracji" Type="datetime" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="true" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" Nullable="true" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" customannotation:Index="{ Name: UserNameIndex, IsUnique: True }" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" customannotation:Index="{ Name: IX_UserId, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" Nullable="true" />
+        </EntityType>
+        <EntityType Name="IdentityUserLogin" customannotation:Index="{ }">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" customannotation:Index="{ Name: IX_UserId, Order: 0 }" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityUserRole" customannotation:Index="{ }">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" customannotation:Index="{ Name: IX_UserId, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" customannotation:Index="{ Name: IX_RoleId, Order: 0 }" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zamowienie">
+          <Key>
+            <PropertyRef Name="ZamowienieId" />
+          </Key>
+          <Property Name="ZamowienieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataZamowienia" Type="datetime" Nullable="false" />
+          <Property Name="DataDostarczenia" Type="datetime" Nullable="false" />
+          <Property Name="TypZamowienia" Type="int" Nullable="false" />
+          <Property Name="UzytkownikId" Type="nvarchar" customannotation:Index="{ Name: IX_UzytkownikId, Order: 0 }" MaxLength="128" Nullable="true" />
+          <Property Name="LodowkaId" Type="int" customannotation:Index="{ Name: IX_LodowkaId, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IdentityRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: RoleNameIndex, IsUnique: True }" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UzytkownikGrupa">
+          <Key>
+            <PropertyRef Name="Uzytkownik_Id" />
+            <PropertyRef Name="Grupa_GrupaId" />
+          </Key>
+          <Property Name="Uzytkownik_Id" Type="nvarchar" customannotation:Index="{ Name: IX_Uzytkownik_Id, Order: 0 }" MaxLength="128" Nullable="false" />
+          <Property Name="Grupa_GrupaId" Type="int" customannotation:Index="{ Name: IX_Grupa_GrupaId, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamowienieProdukt">
+          <Key>
+            <PropertyRef Name="Zamowienie_ZamowienieId" />
+            <PropertyRef Name="Produkt_ProduktId" />
+          </Key>
+          <Property Name="Zamowienie_ZamowienieId" Type="int" customannotation:Index="{ Name: IX_Zamowienie_ZamowienieId, Order: 0 }" Nullable="false" />
+          <Property Name="Produkt_ProduktId" Type="int" customannotation:Index="{ Name: IX_Produkt_ProduktId, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <Association Name="Lodowka_Grupa">
+          <End Role="Lodowka" Type="Self.Lodowka" Multiplicity="1" />
+          <End Role="Grupa" Type="Self.Grupa" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Lodowka">
+              <PropertyRef Name="LodowkaId" />
+            </Principal>
+            <Dependent Role="Grupa">
+              <PropertyRef Name="GrupaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StanLodowki_Lodowka">
+          <End Role="Lodowka" Type="Self.Lodowka" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StanLodowki" Type="Self.StanLodowki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lodowka">
+              <PropertyRef Name="LodowkaId" />
+            </Principal>
+            <Dependent Role="StanLodowki">
+              <PropertyRef Name="LodowkaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Produkt_StanLodowki">
+          <End Role="Produkt" Type="Self.Produkt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StanLodowki" Type="Self.StanLodowki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produkt">
+              <PropertyRef Name="ProduktId" />
+            </Principal>
+            <Dependent Role="StanLodowki">
+              <PropertyRef Name="ProduktId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UpodobanieUzytkownika_Produkt">
+          <End Role="Produkt" Type="Self.Produkt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UpodobanieUzytkownika" Type="Self.UpodobanieUzytkownika" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produkt">
+              <PropertyRef Name="ProduktId" />
+            </Principal>
+            <Dependent Role="UpodobanieUzytkownika">
+              <PropertyRef Name="ProduktId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_Claims">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityUserClaim" Type="Self.IdentityUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_Grupa_Source">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UzytkownikGrupa" Type="Self.UzytkownikGrupa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UzytkownikGrupa">
+              <PropertyRef Name="Uzytkownik_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_Grupa_Target">
+          <End Role="Grupa" Type="Self.Grupa" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UzytkownikGrupa" Type="Self.UzytkownikGrupa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grupa">
+              <PropertyRef Name="GrupaId" />
+            </Principal>
+            <Dependent Role="UzytkownikGrupa">
+              <PropertyRef Name="Grupa_GrupaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_Logins">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityUserLogin" Type="Self.IdentityUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_Roles">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityUserRole" Type="Self.IdentityUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityUserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Uzytkownik_UpodobaniaUzytkownika">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UpodobanieUzytkownika" Type="Self.UpodobanieUzytkownika" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UpodobanieUzytkownika">
+              <PropertyRef Name="UzytkownikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Zamowienie_Lodowka">
+          <End Role="Lodowka" Type="Self.Lodowka" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Zamowienie" Type="Self.Zamowienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lodowka">
+              <PropertyRef Name="LodowkaId" />
+            </Principal>
+            <Dependent Role="Zamowienie">
+              <PropertyRef Name="LodowkaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Zamowienie_Produkty_Source">
+          <End Role="Zamowienie" Type="Self.Zamowienie" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ZamowienieProdukt" Type="Self.ZamowienieProdukt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zamowienie">
+              <PropertyRef Name="ZamowienieId" />
+            </Principal>
+            <Dependent Role="ZamowienieProdukt">
+              <PropertyRef Name="Zamowienie_ZamowienieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Zamowienie_Produkty_Target">
+          <End Role="Produkt" Type="Self.Produkt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ZamowienieProdukt" Type="Self.ZamowienieProdukt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produkt">
+              <PropertyRef Name="ProduktId" />
+            </Principal>
+            <Dependent Role="ZamowienieProdukt">
+              <PropertyRef Name="Produkt_ProduktId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Zamowienie_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="0..1" />
+          <End Role="Zamowienie" Type="Self.Zamowienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zamowienie">
+              <PropertyRef Name="UzytkownikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IdentityRole_Users">
+          <End Role="IdentityRole" Type="Self.IdentityRole" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IdentityUserRole" Type="Self.IdentityUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdentityRole">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IdentityUserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CodeFirstDatabase">
+          <EntitySet Name="Grupa" EntityType="Self.Grupa" Schema="dbo" Table="Grupa" />
+          <EntitySet Name="Lodowka" EntityType="Self.Lodowka" Schema="dbo" Table="Lodowka" />
+          <EntitySet Name="StanLodowki" EntityType="Self.StanLodowki" Schema="dbo" Table="StanLodowki" />
+          <EntitySet Name="Produkt" EntityType="Self.Produkt" Schema="dbo" Table="Produkt" />
+          <EntitySet Name="UpodobanieUzytkownika" EntityType="Self.UpodobanieUzytkownika" Schema="dbo" Table="UpodobaniaUzytkownika" />
+          <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" Table="AspNetUsers" />
+          <EntitySet Name="IdentityUserClaim" EntityType="Self.IdentityUserClaim" Schema="dbo" Table="AspNetUserClaims" />
+          <EntitySet Name="IdentityUserLogin" EntityType="Self.IdentityUserLogin" Schema="dbo" Table="AspNetUserLogins" />
+          <EntitySet Name="IdentityUserRole" EntityType="Self.IdentityUserRole" Schema="dbo" Table="AspNetUserRoles" />
+          <EntitySet Name="Zamowienie" EntityType="Self.Zamowienie" Schema="dbo" Table="Zamowienie" />
+          <EntitySet Name="IdentityRole" EntityType="Self.IdentityRole" Schema="dbo" Table="AspNetRoles" />
+          <EntitySet Name="UzytkownikGrupa" EntityType="Self.UzytkownikGrupa" Schema="dbo" Table="UzytkownikGrupa" />
+          <EntitySet Name="ZamowienieProdukt" EntityType="Self.ZamowienieProdukt" Schema="dbo" Table="ZamowienieProdukt" />
+          <AssociationSet Name="Lodowka_Grupa" Association="Self.Lodowka_Grupa">
+            <End Role="Lodowka" EntitySet="Lodowka" />
+            <End Role="Grupa" EntitySet="Grupa" />
+          </AssociationSet>
+          <AssociationSet Name="StanLodowki_Lodowka" Association="Self.StanLodowki_Lodowka">
+            <End Role="Lodowka" EntitySet="Lodowka" />
+            <End Role="StanLodowki" EntitySet="StanLodowki" />
+          </AssociationSet>
+          <AssociationSet Name="Produkt_StanLodowki" Association="Self.Produkt_StanLodowki">
+            <End Role="Produkt" EntitySet="Produkt" />
+            <End Role="StanLodowki" EntitySet="StanLodowki" />
+          </AssociationSet>
+          <AssociationSet Name="UpodobanieUzytkownika_Produkt" Association="Self.UpodobanieUzytkownika_Produkt">
+            <End Role="Produkt" EntitySet="Produkt" />
+            <End Role="UpodobanieUzytkownika" EntitySet="UpodobanieUzytkownika" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_Claims" Association="Self.Uzytkownik_Claims">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="IdentityUserClaim" EntitySet="IdentityUserClaim" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_Grupa_Source" Association="Self.Uzytkownik_Grupa_Source">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="UzytkownikGrupa" EntitySet="UzytkownikGrupa" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_Grupa_Target" Association="Self.Uzytkownik_Grupa_Target">
+            <End Role="Grupa" EntitySet="Grupa" />
+            <End Role="UzytkownikGrupa" EntitySet="UzytkownikGrupa" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_Logins" Association="Self.Uzytkownik_Logins">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="IdentityUserLogin" EntitySet="IdentityUserLogin" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_Roles" Association="Self.Uzytkownik_Roles">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="IdentityUserRole" EntitySet="IdentityUserRole" />
+          </AssociationSet>
+          <AssociationSet Name="Uzytkownik_UpodobaniaUzytkownika" Association="Self.Uzytkownik_UpodobaniaUzytkownika">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="UpodobanieUzytkownika" EntitySet="UpodobanieUzytkownika" />
+          </AssociationSet>
+          <AssociationSet Name="Zamowienie_Lodowka" Association="Self.Zamowienie_Lodowka">
+            <End Role="Lodowka" EntitySet="Lodowka" />
+            <End Role="Zamowienie" EntitySet="Zamowienie" />
+          </AssociationSet>
+          <AssociationSet Name="Zamowienie_Produkty_Source" Association="Self.Zamowienie_Produkty_Source">
+            <End Role="Zamowienie" EntitySet="Zamowienie" />
+            <End Role="ZamowienieProdukt" EntitySet="ZamowienieProdukt" />
+          </AssociationSet>
+          <AssociationSet Name="Zamowienie_Produkty_Target" Association="Self.Zamowienie_Produkty_Target">
+            <End Role="Produkt" EntitySet="Produkt" />
+            <End Role="ZamowienieProdukt" EntitySet="ZamowienieProdukt" />
+          </AssociationSet>
+          <AssociationSet Name="Zamowienie_Uzytkownik" Association="Self.Zamowienie_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Zamowienie" EntitySet="Zamowienie" />
+          </AssociationSet>
+          <AssociationSet Name="IdentityRole_Users" Association="Self.IdentityRole_Users">
+            <End Role="IdentityRole" EntitySet="IdentityRole" />
+            <End Role="IdentityUserRole" EntitySet="IdentityUserRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </StorageModels>
+  </Runtime>
+  <Designer>
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="ProcessDependentTemplatesOnSave" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <Diagrams >
+      <Diagram DiagramId="c23219e8242a47b2840dcc395347c476" Name="Diagram1">
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Grupa" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Lodowka" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.StanLodowki" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Produkt" Width="1.5" PointX="7.5" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.UpodobanieUzytkownika" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Uzytkownik" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityUserClaim" Width="1.5" PointX="5.25" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityUserLogin" Width="1.5" PointX="5.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityUserRole" Width="1.5" PointX="8.25" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Zamowienie" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityRole" Width="1.5" PointX="6" PointY="20.875" IsExpanded="true" />
+        <AssociationConnector Association="NFC_MVC.DAL.Lodowka_Grupa" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.StanLodowki_Lodowka" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Produkt_StanLodowki" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.UpodobanieUzytkownika_Produkt" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_Claims" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_Grupa" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_Logins" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_UpodobaniaUzytkownika" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Zamowienie_Lodowka" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Zamowienie_Produkty" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Zamowienie_Uzytkownik" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.IdentityRole_Users" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</Edmx>
