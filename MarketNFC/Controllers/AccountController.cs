@@ -305,7 +305,7 @@ namespace MarketNFC.Controllers
                 return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
             }
         }
-
+        //TUTAJ LOGOWANIE PRZEZ FB
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
