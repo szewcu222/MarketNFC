@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MarketNFC.Data;
 using MarketNFC.Models;
+using MarketNFC.Services;
 
 namespace MarketNFC.Controllers
 {
@@ -15,18 +16,19 @@ namespace MarketNFC.Controllers
     public class ZamowieniesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ZamowienieService zamowienieService;
 
         public ZamowieniesController(ApplicationDbContext context)
         {
             _context = context;
+            zamowienieService = new ZamowienieService(context);
         }
 
         // GET: api/Zamowienie
         [HttpGet]
         public IEnumerable<Zamowienie> GetZamowienia()
         {
-            return _context.Zamowienia
-                .Include("ZamowienieProdukty.Produkt");
+            return zamowienieService.GetZamowienia();
         }
 
         // GET: api/Zamowienie/5
@@ -38,9 +40,7 @@ namespace MarketNFC.Controllers
                 return BadRequest(ModelState);
             }
 
-            var zamowienie = _context.Zamowienia
-                .Include("ZamowienieProdukty.Produkt")
-                .Where(z => z.ZamowienieId == id);
+            var zamowienie = zamowienieService.GetZamowienie(id);
 
             if (zamowienie == null)
             {
@@ -94,8 +94,8 @@ namespace MarketNFC.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Zamowienia.Add(zamowienie);
-            await _context.SaveChangesAsync();
+
+            zamowienieService.PostZamowienie(zamowienie);
 
             return CreatedAtAction("GetZamowienie", new { id = zamowienie.ZamowienieId }, zamowienie);
         }
@@ -137,9 +137,8 @@ namespace MarketNFC.Controllers
 
             //var zamowienie = await _context.Zamowienia.FindAsync(id);
 
-            var zamowienie = _context.Zamowienia
-                .Where(z => z.UzytkownikId == id)
-                .Include("ZamowienieProdukty.Produkt");
+            var zamowienie = zamowienieService.GetZamowienieUzytkownika(id);
+
                 //.Include(e => e.)
 
             //foreach (var zam in zamowienie)

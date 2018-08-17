@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MarketNFC.Data;
+using MarketNFC.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,5 +20,42 @@ namespace MarketNFC.Services
         // *okresli typo zamowienia(ze od uzytkownika a nie od systemu)
         // *zapisywanie do tebeli upodobanie uzytnowika uzytnowik/produkty - odpalany UpodobanieService
         // 
+
+        private readonly ApplicationDbContext _context;
+
+        public ZamowienieService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public IEnumerable<Zamowienie> GetZamowienia()
+        {
+            return _context.Zamowienia
+                .Include("ZamowienieProdukty.Produkt");
+        }
+
+        public Zamowienie GetZamowienie(int id)
+        {
+            return _context.Zamowienia
+                .Include("ZamowienieProdukty.Produkt")
+                .Where(z => z.ZamowienieId == id)
+                .FirstOrDefault();
+        }
+
+        public void PostZamowienie(Zamowienie zamowienie)
+        {
+            _context.Zamowienia.Add(zamowienie);
+            _context.SaveChanges();
+        }
+
+        public Zamowienie GetZamowienieUzytkownika(string id)
+        {
+            return _context.Zamowienia
+                .Where(z => z.UzytkownikId == id)
+                .Include("ZamowienieProdukty.Produkt")
+                .FirstOrDefault();
+        }
+
+
     }
 }
