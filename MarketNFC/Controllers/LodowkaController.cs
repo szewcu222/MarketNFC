@@ -101,8 +101,7 @@ namespace MarketNFC.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Lodowki.Add(lodowka);
-            await _context.SaveChangesAsync();
+            lodowkaService.PostLodowka(lodowka);
 
             return CreatedAtAction("GetLodowka", new { id = lodowka.LodowkaId}, lodowka);
         }
