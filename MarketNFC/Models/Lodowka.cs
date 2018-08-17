@@ -24,7 +24,7 @@ namespace MarketNFC.Models
             this.Produkty
                 = new JoinCollectionFacade<Produkt, Lodowka, StanLodowki>(this, StanLodowki);
             //StanLodowki = new HashSet<StanLodowki>();
-            //Zamowienia = new HashSet<Zamowienie>();
+            Zamowienia = new HashSet<Zamowienie>();
         }
 
         [Key]
@@ -40,9 +40,11 @@ namespace MarketNFC.Models
         public int? GrupaId { get; set; }
         public virtual Grupa Grupa { get; set; }
 
-        public virtual ICollection<StanLodowki> StanLodowki { get; set; }  = new List<StanLodowki>();
-
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
+
+
+        private ICollection<StanLodowki> StanLodowki { get; }
+            = new List<StanLodowki>();
 
         [NotMapped]
         public ICollection<Produkt> Produkty { get; set; }

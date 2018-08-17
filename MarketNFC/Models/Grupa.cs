@@ -30,7 +30,8 @@ namespace MarketNFC.Models
 
         public virtual Lodowka Lodowka { get; set; }
 
-        public virtual ICollection<UzytkownikGrupa> UzytkownikGrupy { get; set; }
+        private ICollection<UzytkownikGrupa> UzytkownikGrupy { get; }
+            = new List<UzytkownikGrupa>();
 
         [NotMapped]
         public ICollection<Uzytkownik> Uzytkownicy { get; set; }

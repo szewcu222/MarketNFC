@@ -21,8 +21,8 @@ namespace MarketNFC.Models
         public Produkt()
         {
             Zamowienia = new JoinCollectionFacade<Zamowienie, Produkt, ZamowienieProdukt>(this, ZamowienieProdukty);
-            StanLodowki = new HashSet<StanLodowki>();
-            UpodobanieUzytkownikow = new HashSet<UpodobanieUzytkownika>();
+            Uzytkownicy = new JoinCollectionFacade<Uzytkownik, Produkt, UpodobanieUzytkownika>(this, UpodobanieUzytkownikow);
+            Lodowki= new JoinCollectionFacade<Lodowka, Produkt, StanLodowki>(this, StanLodowki);
         }
 
         [Key]
@@ -44,13 +44,27 @@ namespace MarketNFC.Models
 
         public float Cena { get; set; }
 
-        public virtual ICollection<StanLodowki> StanLodowki { get; set; }
 
-        private ICollection<ZamowienieProdukt> ZamowienieProdukty { get; } = new List<ZamowienieProdukt>();
 
-        public virtual ICollection<UpodobanieUzytkownika> UpodobanieUzytkownikow { get; set; }
+        private ICollection<ZamowienieProdukt> ZamowienieProdukty { get; } 
+            = new List<ZamowienieProdukt>();
+
+        private ICollection<UpodobanieUzytkownika> UpodobanieUzytkownikow { get; }
+            = new List<UpodobanieUzytkownika>();
+
+        private ICollection<StanLodowki> StanLodowki { get; }
+            = new List<StanLodowki>();
+
+
 
         [NotMapped]
         public ICollection<Zamowienie> Zamowienia { get; set; }
+
+        [NotMapped]
+        public ICollection<Uzytkownik> Uzytkownicy { get; set; }
+
+        [NotMapped]
+        public ICollection<Lodowka> Lodowki { get; set; }
+
     }
 }

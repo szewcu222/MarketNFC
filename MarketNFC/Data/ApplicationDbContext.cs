@@ -53,12 +53,12 @@ namespace MarketNFC.Data
 
             builder.Entity<StanLodowki>()
                 .HasOne(sl => sl.Lodowka)
-                .WithMany(l => l.StanLodowki)
+                .WithMany("StanLodowki")
                 .HasForeignKey(sl => sl.LodowkaId);
 
             builder.Entity<StanLodowki>()
                 .HasOne(sl => sl.Produkt)
-                .WithMany(p => p.StanLodowki)
+                .WithMany("StanLodowki")
                 .HasForeignKey(sl => sl.ProduktId);
 
             //UpodobaniaUzytkownika
@@ -67,12 +67,12 @@ namespace MarketNFC.Data
 
             builder.Entity<UpodobanieUzytkownika>()
                .HasOne(uu => uu.Uzytkownik)
-               .WithMany(u => u.UpodobaniaUzytkownika)
+               .WithMany("UpodobaniaUzytkownika")
                .HasForeignKey(uu => uu.UzytkownikId);
 
             builder.Entity<UpodobanieUzytkownika>()
                 .HasOne(uu => uu.Produkt)
-                .WithMany(p => p.UpodobanieUzytkownikow)
+                .WithMany("UpodobanieUzytkownikow")
                 .HasForeignKey(uu => uu.ProduktId);
 
             //UzytkownikGrupa
@@ -81,12 +81,12 @@ namespace MarketNFC.Data
 
             builder.Entity<UzytkownikGrupa>()
                .HasOne(ug => ug.Uzytkownik)
-               .WithMany(u => u.UzytkownikGrupy)
+               .WithMany("UzytkownikGrupy")
                .HasForeignKey(ug => ug.UzytkownikId);
 
             builder.Entity<UzytkownikGrupa>()
                 .HasOne(ug => ug.Grupa)
-                .WithMany(g => g.UzytkownikGrupy)
+                .WithMany("UzytkownikGrupy")
                 .HasForeignKey(ug => ug.GrupaId);
 
             //ZamowienieProdukt

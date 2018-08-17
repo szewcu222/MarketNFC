@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using MarketNFC.Models;
 using MarketNFC.Models.AccountViewModels;
 using MarketNFC.Services;
+using MarketNFC.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketNFC.Controllers
 {
@@ -24,17 +26,20 @@ namespace MarketNFC.Controllers
         private readonly SignInManager<Uzytkownik> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
-
+        private readonly ApplicationDbContext _context;
+        
         public AccountController(
             UserManager<Uzytkownik> userManager,
             SignInManager<Uzytkownik> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _context = context;
         }
 
         [TempData]
@@ -212,6 +217,7 @@ namespace MarketNFC.Controllers
             return View();
         }
 
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -221,6 +227,9 @@ namespace MarketNFC.Controllers
             if (ModelState.IsValid)
             {
                 var user = new Uzytkownik { UserName = model.Email, Email = model.Email };
+                var grupa = _context.Grupy.
+                    FirstOrDefault(o => o.Nazwa == "debesciaki");
+                user.Grupy.Add(grupa);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

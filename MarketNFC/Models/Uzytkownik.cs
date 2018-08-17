@@ -23,28 +23,22 @@ namespace MarketNFC.Models
 
         public Uzytkownik()
         {
-            this.Produkty
-                = new JoinCollectionFacade<Produkt, Uzytkownik, UpodobanieUzytkownika>
-                    (this, UpodobaniaUzytkownika);
-
-            this.Grupy
-                = new JoinCollectionFacade<Grupa, Uzytkownik, UzytkownikGrupa>
-                    (this, UzytkownikGrupy);
+            Produkty = new JoinCollectionFacade<Produkt, Uzytkownik, UpodobanieUzytkownika>(this, UpodobaniaUzytkownika);
+            Grupy = new JoinCollectionFacade<Grupa, Uzytkownik, UzytkownikGrupa>(this, UzytkownikGrupy);
         }
 
         //public int UzytkownikId { get; set; }
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
         public DateTime DataRejestracji { get; set; }
-
         public UInt64 LiczbaZamowien { get; set; }
-
-
-        public virtual ICollection<UzytkownikGrupa> UzytkownikGrupy { get; set; }
 
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
 
-        public virtual ICollection<UpodobanieUzytkownika> UpodobaniaUzytkownika { get; set; }
+        private ICollection<UpodobanieUzytkownika> UpodobaniaUzytkownika { get; }
+            = new List<UpodobanieUzytkownika>();
+        private ICollection<UzytkownikGrupa> UzytkownikGrupy { get; }
+            = new List<UzytkownikGrupa>();
 
         [NotMapped]
         public ICollection<Produkt> Produkty { get; set; }
