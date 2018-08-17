@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MarketNFC.Data;
 using MarketNFC.Models;
+using MarketNFC.Services;
 
 namespace MarketNFC.Controllers
 {
@@ -15,18 +16,19 @@ namespace MarketNFC.Controllers
     public class LodowkaController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly LodowkaService lodowkaService;
 
         public LodowkaController(ApplicationDbContext context)
         {
             _context = context;
+            lodowkaService = new LodowkaService(context);
         }
 
         // GET: api/lodowka
         [HttpGet]
-        public IEnumerable<Lodowka> GetLodowka()
+        public IEnumerable<Lodowka> GetLodowki()
         {
-            return _context.Lodowki
-                .Include("StanLodowki.Produkt");
+            return lodowkaService.GetLodowki();
         }
 
         // GET: api/lodowka/5
@@ -38,9 +40,7 @@ namespace MarketNFC.Controllers
                 return BadRequest(ModelState);
             }
 
-            var lodowka = _context.Lodowki
-                .Include("StanLodowki.Produkt")
-                .Where(l => l.LodowkaId == id);
+            var lodowka = lodowkaService.GetLodowka(id);
 
             if (lodowka == null)
             {
@@ -49,11 +49,16 @@ namespace MarketNFC.Controllers
 
             return Ok(lodowka);
         }
+        // bedzie sluzylo do edycji
+        // tak naprawde bedzie sie podawalo id lodowki i lodowke z jednym produktem potem wyszukiwala ta lodowke i zmienialo jej ilosc produktow
+        // mozna rozgraniczyc metody na deleteProdukt,editProdukt,addProdukt
+        // wszystkie beda mialy podobna zasade i tez beda PUTami
 
         // PUT: api/lodowka/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLodowka([FromRoute] int id, [FromBody] Lodowka lodowka)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -63,6 +68,8 @@ namespace MarketNFC.Controllers
             {
                 return BadRequest();
             }
+
+            lodowka = lodowkaService.PutLodowka(id, lodowka);
 
             _context.Entry(lodowka).State = EntityState.Modified;
 

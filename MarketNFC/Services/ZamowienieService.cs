@@ -44,6 +44,8 @@ namespace MarketNFC.Services
 
         public void PostZamowienie(Zamowienie zamowienie)
         {
+            var user = FindUser(zamowienie.Uzytkownik.UserName);
+            zamowienie.Uzytkownik = user;
             _context.Zamowienia.Add(zamowienie);
             _context.SaveChanges();
         }
@@ -55,7 +57,11 @@ namespace MarketNFC.Services
                 .Include("ZamowienieProdukty.Produkt")
                 .FirstOrDefault();
         }
-
-
+        //////////////////////////////////    HELP{ERS
+        public Uzytkownik FindUser(string username)
+        {
+            return _context.Users.
+                FirstOrDefault(u => u.UserName == username);
+        }
     }
 }
