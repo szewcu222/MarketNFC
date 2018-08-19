@@ -44,8 +44,10 @@ namespace MarketNFC.Services
 
         public void PostZamowienie(Zamowienie zamowienie)
         {
-            var user = FindUser(zamowienie.Uzytkownik.UserName);
-            zamowienie.Uzytkownik = user;
+            //var user = FindUser(zamowienie.Uzytkownik.UserName);
+            //zamowienie.Uzytkownik = user;
+            zamowienie.Lodowka = _context.Lodowki.Find(1);
+            zamowienie.LodowkaId = 1;
             _context.Zamowienia.Add(zamowienie);
             _context.SaveChanges();
         }

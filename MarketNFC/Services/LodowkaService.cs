@@ -77,7 +77,7 @@ namespace MarketNFC.Services
         "produkty": [
             {
                 "produktId": 1,
-                "nazwa": "SZAMPON",
+                "nazwa": "gfgfg",
                 "rfidTag": "1111",
                 "dataWaznosci": "2018-08-17T19:44:02.299",
                 "producent": "SYOSS",

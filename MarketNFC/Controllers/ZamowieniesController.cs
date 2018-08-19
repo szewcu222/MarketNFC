@@ -85,8 +85,31 @@ namespace MarketNFC.Controllers
             return NoContent();
         }
 
-        // POST: api/Zamowienie
-        [HttpPost]
+
+        //[HttpPost]
+        //public async Task<IActionResult> PostZamowienie([FromBody] String zamowienie)
+        //{
+
+        //    String json = zamowienie;
+        //    //if (!ModelState.IsValid)
+        //    //{
+        //    //    return BadRequest(ModelState);
+        //    //}
+
+
+        //    //zamowienieService.PostZamowienie(zamowienie);
+
+        //    //return CreatedAtAction("GetZamowienie", new { id = zamowienie.ZamowienieId }, zamowienie);
+        //    return Ok();
+        //}
+
+
+
+
+
+
+        //POST: api/Zamowienie
+       [HttpPost]
         public async Task<IActionResult> PostZamowienie([FromBody] Zamowienie zamowienie)
         {
             if (!ModelState.IsValid)
@@ -99,6 +122,22 @@ namespace MarketNFC.Controllers
 
             return CreatedAtAction("GetZamowienie", new { id = zamowienie.ZamowienieId }, zamowienie);
         }
+
+
+
+        //// POST: api/Zamowienie
+        //[HttpPost("zamjson")]
+        //public string PostZamowienie([FromBody] JsonResult zamowienie)
+        //{
+        //    JsonResult json = zamowienie;
+
+
+        //    //zamowienieService.PostZamowienie(zamowienie);
+
+        //    //return CreatedAtAction("GetZamowienie", new { id = zamowienie.ZamowienieId }, zamowienie);
+        //    return "DZIALA";
+        //}
+
 
         // DELETE: api/Zamowienie/5
         [HttpDelete("{id}")]
