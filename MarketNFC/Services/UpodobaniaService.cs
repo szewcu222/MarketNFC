@@ -13,11 +13,10 @@ namespace MarketNFC.Services
         // *dodatkowo metody do getowania tych wierszy zeby na szybkosci byly
         //
 
-
-
-        Dictionary<String, int> prodDict = new Dictionary<String, int>();
-
-        
+        void op()
+        {
+            var tup = new Tuple<int, int>(1,1);
+        }
         //HashSet<String, int> prodDict = new HashSet<Produkt, int>();
 
         //zamowienieUzytkownika.foireach(s =>

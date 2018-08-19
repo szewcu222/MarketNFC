@@ -30,10 +30,15 @@ namespace MarketNFC.Services
         public Produkt GetProdukt(int id)
         {
             var produkt = _context.Produkty
-                .Include("ZamowienieProdukty.Zamowienie")
-                .Include("StanLodowki.Lodowka")
-                .Include("UpodobanieUzytkownikow.Uzytkownik")
                 .FirstOrDefault(p => p.ProduktId == id);
+
+            return produkt;
+        }
+
+        public Produkt GetByTag(string tag)
+        {
+            var produkt = _context.Produkty
+                .FirstOrDefault(p => p.RFIDTag == tag);
 
             return produkt;
         }

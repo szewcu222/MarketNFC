@@ -32,6 +32,25 @@ namespace MarketNFC.Controllers
             return produktService.GetProdukty();
         }
 
+        [HttpGet("bytag/{tag}")]
+        public async Task<IActionResult> ByTag([FromRoute] string tag)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //   var produkt = await _context.Produkty.FindAsync(id);
+            var produkt = produktService.GetByTag(tag);
+
+            if (produkt == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(produkt);
+        }
+
         // GET: api/Produkt/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProdukt([FromRoute] int id)
