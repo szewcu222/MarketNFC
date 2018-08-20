@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Congrats";
+    var username2 = ViewData["username"] as string;
+    var username = "jacek";
+}
+
+<h2>Congrats</h2>
+
+
+<script type="text/javascript">
+    function showAndroid(name) {
+        //alert(name)
+        alert(name);
+        Android.sendData(name);
+        window.location.href = "/home/index";
+    }
+
+</script>
+
+<button onclick="showAndroid('@ViewData["username"]')">Show Toast</button>
+

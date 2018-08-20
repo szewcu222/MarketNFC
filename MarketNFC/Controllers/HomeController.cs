@@ -19,7 +19,7 @@ namespace MarketNFC.Controllers
         private SignInManager<Uzytkownik> _signManager;
         private ApplicationDbContext _db;
 
-        public HomeController(UserManager<Uzytkownik> userManager, 
+        public HomeController(UserManager<Uzytkownik> userManager,
             SignInManager<Uzytkownik> signManager)
         {
             _db = ApplicationDbContext.Create();
@@ -38,7 +38,7 @@ namespace MarketNFC.Controllers
             //_db.SaveChanges();
 
             var p = _db.Produkty.Find(1);
-            
+
             ViewData["Zwrotka"] = p.Nazwa;
             return View();
         }
@@ -76,7 +76,7 @@ namespace MarketNFC.Controllers
         public List<Zamowienie> Zamowienie()
         {
             var p = _db.Produkty.Find(1);
-            
+
 
             //var q = _db.Zamowienia
             //    .Include(z => z.ZamowienieProdukty)
@@ -145,7 +145,7 @@ namespace MarketNFC.Controllers
         }
         public JsonResult Produkty()
         {
-            var p = new List<Produkt> { 
+            var p = new List<Produkt> {
                 new Produkt { Nazwa = "Boczek", RFIDTag = "41238cdfshfuia7", DataWaznosci = DateTime.Now },
                 new Produkt { Nazwa = "Jagodzianka", RFIDTag = "v98dfc7fddsa0-a", DataWaznosci = DateTime.Now },
                 new Produkt { Nazwa = "Maslo", RFIDTag = "ds90a9023iddsaod", DataWaznosci = DateTime.Now }
@@ -154,33 +154,51 @@ namespace MarketNFC.Controllers
             return Json(p);
         }
 
-        public JsonResult GetProdukt ()
+        public JsonResult GetProdukt()
         {
             var p = _db.Produkty.Find(1);
             return Json(p);
         }
 
         //http://192.168.0.20:44371/home/post
-    //           {
-	   // "nazwa":"BROWAT",
-	   // "rfidTag":"1111",
-	   // "dataWaznosci":"2018-07-29T23:08:56.413",
-	   // "producent":"TYSKIE",
-	   // "globalnyNumerJednostkiHandlowej":1111,
-	   // "numerPartiiProdukcyjnej":1111,"cena":5.0,
-	   // "stanLodowki":[],"zamowienieProdukty":[],
-	   // "upodobanieUzytkownikow":[]
-    //}
+        //           {
+        // "nazwa":"BROWAT",
+        // "rfidTag":"1111",
+        // "dataWaznosci":"2018-07-29T23:08:56.413",
+        // "producent":"TYSKIE",
+        // "globalnyNumerJednostkiHandlowej":1111,
+        // "numerPartiiProdukcyjnej":1111,"cena":5.0,
+        // "stanLodowki":[],"zamowienieProdukty":[],
+        // "upodobanieUzytkownikow":[]
+        //}
 
 
-    public void PostProdukt([FromBody]JObject value)
+        public void PostProdukt([FromBody]JObject value)
         {
             Produkt posted = value.ToObject<Produkt>();
 
             _db.Produkty.Add(posted);
             _db.SaveChanges();
-            
+
+        }
+        Uzytkownik user;
+        public IActionResult Congrats()
+        {
+            ViewData["Message"] = "Congrats";
+            GetCurrentUser();
+            String username = _userManager.GetUserName(HttpContext.User);
+            //ViewBag["user"] = user;
+            ViewData["username"] = username;
+            return View();
         }
 
+        private async Task<Uzytkownik> GetCurrentUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
+
+        private async void GetCurrentUser()
+        {
+            
+            //GetCurrentUserAsync()
+            user = await GetCurrentUserAsync();
+        }
     }
 }

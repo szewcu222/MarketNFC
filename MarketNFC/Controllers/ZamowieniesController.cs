@@ -142,7 +142,7 @@ namespace MarketNFC.Controllers
         // DELETE: api/Zamowienie/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteZamowienie([FromRoute] int id)
-        {
+        { 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

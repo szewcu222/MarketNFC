@@ -48,6 +48,9 @@ namespace MarketNFC.Services
             //zamowienie.Uzytkownik = user;
             zamowienie.Lodowka = _context.Lodowki.Find(1);
             zamowienie.LodowkaId = 1;
+
+            zamowienie.DataDostarczenia = DateTime.Now;
+
             _context.Zamowienia.Add(zamowienie);
             _context.SaveChanges();
         }

@@ -464,7 +464,8 @@ namespace MarketNFC.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                //return RedirectToPage("~/Pages/Shared/_Endpoint");
+                return RedirectToAction(nameof(HomeController.Congrats), "Home");
             }
         }
 
