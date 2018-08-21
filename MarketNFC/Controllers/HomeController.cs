@@ -187,7 +187,11 @@ namespace MarketNFC.Controllers
             ViewData["Message"] = "Congrats";
             GetCurrentUser();
             String username = _userManager.GetUserName(HttpContext.User);
+            var user = _db.Users.FirstOrDefault(u => u.UserName == username);
+
+            var grupa = _db.Grupy.FirstOrDefault();    //do zmiany!!!!@
             //ViewBag["user"] = user;
+            ViewData["grupa"] = grupa.Nazwa;
             ViewData["username"] = username;
             return View();
         }

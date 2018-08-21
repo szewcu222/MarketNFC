@@ -1,11 +1,15 @@
 ﻿
 @{
     ViewData["Title"] = "Congrats";
-    var username2 = ViewData["username"] as string;
-    var username = "jacek";
+
+    var username = ViewData["username"] as string; 
+    var grupa = @ViewData["grupa"] as string;
+    var dane = username + "-" + grupa;
 }
 
-<h2>Congrats @ViewData["username"] !!</h2>
+<h2>Gratulacje <b>@ViewData["username"]</b> udało Ci się zalogować do grupy <b>@ViewData["grupa"]</b> !!</h2>
+
+
 
 
 <script type="text/javascript">
@@ -27,5 +31,5 @@
 
 </script>
 
-<button onclick="showAndroid('@ViewData["username"]')">Show Toast</button>
+<button  class="btn btn-default" onclick="showAndroid('@dane')">Kontynuuj</button>
 
