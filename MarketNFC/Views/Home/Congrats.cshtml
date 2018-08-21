@@ -5,15 +5,24 @@
     var username = "jacek";
 }
 
-<h2>Congrats</h2>
+<h2>Congrats @ViewData["username"] !!</h2>
 
 
 <script type="text/javascript">
     function showAndroid(name) {
         //alert(name)
-        alert(name);
-        Android.sendData(name);
-        window.location.href = "/home/index";
+        //alert(name);
+        try {
+            Android.sendData(name);
+            //window.location.href = "/home/index";
+        }
+        catch (exception) {
+            alert(exception);
+        }
+        finally {
+            window.location.href = "/home/index";
+        }
+
     }
 
 </script>

@@ -104,13 +104,19 @@ namespace MarketNFC.Controllers
         //}
 
 
-
+        //[HttpPost]
+        //public string PostZamowienie([FromBody] String zamowienie)
+        //{
+        //    string zam = zamowienie;
+        //    string dupa = zamowienie;
+        //    return zam;
+        //}
 
 
 
         //POST: api/Zamowienie
-       [HttpPost]
-        public async Task<IActionResult> PostZamowienie([FromBody] Zamowienie zamowienie)
+        [HttpPost]
+         public async Task<IActionResult> PostZamowienie([FromBody] Zamowienie zamowienie)
         {
             if (!ModelState.IsValid)
             {
