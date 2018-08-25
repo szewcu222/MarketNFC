@@ -189,8 +189,16 @@ namespace MarketNFC.Controllers
             String username = _userManager.GetUserName(HttpContext.User);
             var user = _db.Users.FirstOrDefault(u => u.UserName == username);
 
-            var grupa = _db.Grupy.FirstOrDefault();    //do zmiany!!!!@
-            //ViewBag["user"] = user;
+            var userGrupa = _db.UzytkownicyGrupy.
+                Where(g => g.UzytkownikId == user.Id).
+                FirstOrDefault();
+            var grupa = _db.Grupy.Find(userGrupa.GrupaId);
+            var lodowka = _db.Lodowki.
+                Where(l => l.GrupaId == grupa.GrupaId).
+                FirstOrDefault();
+
+            ViewData["lodowkaPoj"] = lodowka.Pojemnosc;
+            ViewData["lodowkaID"] = lodowka.LodowkaId;
             ViewData["grupa"] = grupa.Nazwa;
             ViewData["username"] = username;
             return View();

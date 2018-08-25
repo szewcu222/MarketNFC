@@ -39,31 +39,56 @@ namespace MarketNFC.Services
         internal Lodowka PutLodowka(int id, Lodowka lodowka)
         {
             //pobierz produkty ktore poszly w jsonie
-            var produkty = lodowka.Produkty;
-
+            List<Produkt> noweProdukty = new List<Produkt>();
+            foreach(var prod in lodowka.Produkty)
+            {
+                noweProdukty.Add(_context.Produkty.
+                    Where(x => x.RFIDTag == prod.RFIDTag).
+                    FirstOrDefault());
+            }
+            
             //znajdz lodowke wsrod tych ktore sa w bazie
-            var lod = _context.Lodowki
+            var lodowkaDb = _context.Lodowki
+                .AsNoTracking()
                 .Include("StanLodowki.Produkt")
                 .FirstOrDefault(l => l.LodowkaId == id);
 
-            // usuwanie
-            //List<Produkt> prodList = lod.Produkty.ToList();
-            //foreach (var produkt in produkty)
-            //{
-            //    if (prodList.Exists(p => p.ProduktId == produkt.ProduktId))
-            //        lod.Produkty.Remove(produkt);
-            //}
+            //usun dotychczasowe produkty przypisane do lodowki
+            lodowkaDb.Produkty.Clear();
 
-            // i teraz jakas logika zeby sprawdzic czy produkt zostanie usuniety z lodowki czy dodany.
-            // Narazie zaimplementuje ze dodany. Tak naprawde mozna zalozyc ze edycja to usuniecie a potem dodanie ale robi sie duzo ID
-            foreach (var produkt in produkty)
+            //pobierz wszystkie rekordy z tabeli StanLodowki dot. 
+            //postowanej lodowki
+            var st_l = _context.StanyLodowek
+                .Where(x => x.LodowkaId == lodowka.LodowkaId);
+
+            //usun rekordy stanu lodowki
+            if (st_l.Count<StanLodowki>() > 0)
             {
-                lod.Produkty.Add(produkt);
+                foreach (var st in st_l)
+                {
+                    _context.StanyLodowek.Remove(st);
+                }
             }
 
-            lodowka.DataAktualizacji = DateTime.Now;
+            //zapisz nowy stan lodowki w bazie danych
+            if (noweProdukty.Count > 0)
+            {
+                foreach (var produkt in noweProdukty)
+                {
+                    lodowkaDb.Produkty.Add(produkt);
 
-            return lod;
+                    _context.StanyLodowek.Add(new StanLodowki
+                    {
+                        ProduktId = produkt.ProduktId,
+                        LodowkaId = lodowka.LodowkaId,
+                        Ilosc = 1
+                    });
+                }
+            }
+
+            lodowkaDb.DataAktualizacji = DateTime.Now;
+
+            return lodowkaDb;
         }
 
         /*

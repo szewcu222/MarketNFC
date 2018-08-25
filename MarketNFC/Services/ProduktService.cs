@@ -21,10 +21,7 @@ namespace MarketNFC.Services
 
         public IEnumerable<Produkt> GetProdukty()
         {
-            return _context.Produkty
-                .Include("ZamowienieProdukty.Zamowienie")
-                .Include("StanLodowki.Lodowka")
-                .Include("UpodobanieUzytkownikow.Uzytkownik");
+            return _context.Produkty;
         }
 
         public Produkt GetProdukt(int id)

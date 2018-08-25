@@ -28,7 +28,7 @@ namespace MarketNFC.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int ProduktId { get; set; }
-        [Required]
+        //[Required]
         public string Nazwa { get; set; }
         [Required]
         public string RFIDTag { get; set; }
