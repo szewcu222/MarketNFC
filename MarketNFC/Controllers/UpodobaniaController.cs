@@ -13,7 +13,7 @@ namespace MarketNFC.Controllers
 {
     [Route("api/upodobania")]
     [ApiController]
-    public class UpodobaniaController : ControllerBase
+    public class UpodobaniaController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UpodobaniaService upodobaniaService;
@@ -38,12 +38,36 @@ namespace MarketNFC.Controllers
             return Ok();
         }
 
-        
-
-        
-        private bool ProduktExists(int id)
+        [HttpGet("systemorder/{id}")]
+        public async Task<IActionResult> GetDayAndTimeSystemOr([FromRoute] string id)
         {
-            return _context.Produkty.Any(e => e.ProduktId == id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var order = upodobaniaService.GetDayAndTimeSystemOrder(id);
+
+            if(!(order.Day >= 1 && order.Day <=7))
+            {
+                return NotFound();
+            }
+
+            return Json(order);
+        }
+
+        [HttpPost("systemorder/{id}")]
+        public async Task<IActionResult> PostDayAndTimeSystemOr([FromRoute] string id,
+            [FromBody] SystemOrderViewModel order)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            upodobaniaService.PostDayAndTimeSystemOrder(id, order);
+
+            return Ok();
         }
     }
 }

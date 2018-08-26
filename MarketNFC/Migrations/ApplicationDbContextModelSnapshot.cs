@@ -60,9 +60,9 @@ namespace MarketNFC.Migrations
                     b.ToTable("Lodowka");
 
                     b.HasData(
-                        new { LodowkaId = 1, DataAktualizacji = new DateTime(2018, 8, 17, 19, 44, 2, 295, DateTimeKind.Local), GrupaId = 1, Pojemnosc = 10 },
-                        new { LodowkaId = 2, DataAktualizacji = new DateTime(2018, 8, 17, 19, 44, 2, 296, DateTimeKind.Local), GrupaId = 2, Pojemnosc = 15 },
-                        new { LodowkaId = 3, DataAktualizacji = new DateTime(2018, 8, 17, 19, 44, 2, 296, DateTimeKind.Local), GrupaId = 3, Pojemnosc = 12 }
+                        new { LodowkaId = 1, DataAktualizacji = new DateTime(2018, 8, 26, 20, 36, 17, 528, DateTimeKind.Local), GrupaId = 1, Pojemnosc = 10 },
+                        new { LodowkaId = 2, DataAktualizacji = new DateTime(2018, 8, 26, 20, 36, 17, 530, DateTimeKind.Local), GrupaId = 2, Pojemnosc = 15 },
+                        new { LodowkaId = 3, DataAktualizacji = new DateTime(2018, 8, 26, 20, 36, 17, 530, DateTimeKind.Local), GrupaId = 3, Pojemnosc = 12 }
                     );
                 });
 
@@ -76,12 +76,11 @@ namespace MarketNFC.Migrations
 
                     b.Property<DateTime>("DataWaznosci");
 
-                    b.Property<int>("GlobalnyNumerJednostkiHandlowej");
+                    b.Property<string>("GlobalnyNumerJednostkiHandlowej");
 
-                    b.Property<string>("Nazwa")
-                        .IsRequired();
+                    b.Property<string>("Nazwa");
 
-                    b.Property<int>("NumerPartiiProdukcyjnej");
+                    b.Property<string>("NumerPartiiProdukcyjnej");
 
                     b.Property<string>("Producent");
 
@@ -93,11 +92,11 @@ namespace MarketNFC.Migrations
                     b.ToTable("Produkt");
 
                     b.HasData(
-                        new { ProduktId = 1, Cena = 5f, DataWaznosci = new DateTime(2018, 8, 17, 19, 44, 2, 299, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = 1111, Nazwa = "SZAMPON", NumerPartiiProdukcyjnej = 1111, Producent = "SYOSS", RFIDTag = "1111" },
-                        new { ProduktId = 2, Cena = 10f, DataWaznosci = new DateTime(2018, 8, 17, 19, 44, 2, 300, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = 2222, Nazwa = "COLA", NumerPartiiProdukcyjnej = 2222, Producent = "SYOSS", RFIDTag = "2222" },
-                        new { ProduktId = 3, Cena = 15f, DataWaznosci = new DateTime(2018, 8, 17, 19, 44, 2, 300, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = 3333, Nazwa = "SZAMPON", NumerPartiiProdukcyjnej = 3333, Producent = "SYOSS", RFIDTag = "3333" },
-                        new { ProduktId = 4, Cena = 20f, DataWaznosci = new DateTime(2018, 8, 17, 19, 44, 2, 300, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = 4444, Nazwa = "PEPSI", NumerPartiiProdukcyjnej = 4444, Producent = "COLACOMP", RFIDTag = "4444" },
-                        new { ProduktId = 5, Cena = 30f, DataWaznosci = new DateTime(2018, 8, 17, 19, 44, 2, 300, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = 5555, Nazwa = "PAWO", NumerPartiiProdukcyjnej = 5555, Producent = "HARNAS", RFIDTag = "5555" }
+                        new { ProduktId = 1, Cena = 5f, DataWaznosci = new DateTime(2018, 8, 26, 20, 36, 17, 533, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = "1111", Nazwa = "Jajka L", NumerPartiiProdukcyjnej = "1111", Producent = "AleJaja", RFIDTag = "1111" },
+                        new { ProduktId = 2, Cena = 2.99f, DataWaznosci = new DateTime(2018, 8, 26, 20, 36, 17, 533, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = "2222", Nazwa = "Mleko", NumerPartiiProdukcyjnej = "2222", Producent = "Mlekpol", RFIDTag = "0419903aec4c80" },
+                        new { ProduktId = 3, Cena = 5.6f, DataWaznosci = new DateTime(2018, 8, 26, 20, 36, 17, 533, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = "3333", Nazwa = "Maslo", NumerPartiiProdukcyjnej = "3333", Producent = "Mlekpol", RFIDTag = "04098f3aec4c80" },
+                        new { ProduktId = 4, Cena = 5f, DataWaznosci = new DateTime(2018, 8, 26, 20, 36, 17, 533, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = "4444", Nazwa = "CocaCola", NumerPartiiProdukcyjnej = "4444", Producent = "CocaCola Copmany", RFIDTag = "0411903aec4c80" },
+                        new { ProduktId = 5, Cena = 2.4f, DataWaznosci = new DateTime(2018, 8, 26, 20, 36, 17, 533, DateTimeKind.Local), GlobalnyNumerJednostkiHandlowej = "5555", Nazwa = "Piwo Tyskie", NumerPartiiProdukcyjnej = "5555", Producent = "Kompania Piwowarska", RFIDTag = "5555" }
                     );
                 });
 
@@ -167,10 +166,14 @@ namespace MarketNFC.Migrations
 
                     b.Property<DateTime>("DataRejestracji");
 
+                    b.Property<int>("DzienSysZamowienia");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<TimeSpan>("GodzinaSysZamowienia");
 
                     b.Property<string>("Imie");
 
@@ -215,10 +218,10 @@ namespace MarketNFC.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = "1", AccessFailedCount = 0, ConcurrencyStamp = "18c6b1cb-cf29-4e6d-a5e9-8596670dbb15", DataRejestracji = new DateTime(2018, 8, 17, 19, 44, 2, 297, DateTimeKind.Local), Email = "szewcu222@gmail.com", EmailConfirmed = false, Imie = "Darek", LiczbaZamowien = 0m, LockoutEnabled = false, Nazwisko = "Malysz", PhoneNumberConfirmed = false, TwoFactorEnabled = false },
-                        new { Id = "2", AccessFailedCount = 0, ConcurrencyStamp = "7038fe8c-de66-4e5b-a8dc-9affa21f5e56", DataRejestracji = new DateTime(2018, 8, 17, 19, 44, 2, 297, DateTimeKind.Local), Email = "miska@gmail.com", EmailConfirmed = false, Imie = "Misia", LiczbaZamowien = 0m, LockoutEnabled = false, Nazwisko = "Mis", PhoneNumberConfirmed = false, TwoFactorEnabled = false },
-                        new { Id = "3", AccessFailedCount = 0, ConcurrencyStamp = "98c583f0-2215-4e00-b0f6-289b99d1d909", DataRejestracji = new DateTime(2018, 8, 17, 19, 44, 2, 297, DateTimeKind.Local), Email = "sobek44@gmail.com", EmailConfirmed = false, Imie = "Sebke", LiczbaZamowien = 0m, LockoutEnabled = false, Nazwisko = "Szczepankiewicz", PhoneNumberConfirmed = false, TwoFactorEnabled = false },
-                        new { Id = "4", AccessFailedCount = 0, ConcurrencyStamp = "2036458d-6e64-4c1c-a21e-28573739f09f", DataRejestracji = new DateTime(2018, 8, 17, 19, 44, 2, 297, DateTimeKind.Local), Email = "kozula@gmail.com", EmailConfirmed = false, Imie = "MIchal", LiczbaZamowien = 0m, LockoutEnabled = false, Nazwisko = "Kozubek", PhoneNumberConfirmed = false, TwoFactorEnabled = false }
+                        new { Id = "1", AccessFailedCount = 0, ConcurrencyStamp = "8c2d59ed-ed90-4d1d-bcec-2618f10b491e", DataRejestracji = new DateTime(2018, 8, 26, 20, 36, 17, 531, DateTimeKind.Local), DzienSysZamowienia = 0, Email = "szewcu222@gmail.com", EmailConfirmed = false, GodzinaSysZamowienia = new TimeSpan(0, 0, 0, 0, 0), Imie = "Darek", LiczbaZamowien = 0m, LockoutEnabled = false, Nazwisko = "Malysz", PhoneNumberConfirmed = false, TwoFactorEnabled = false },
+                        new { Id = "2", AccessFailedCount = 0, ConcurrencyStamp = "a3067982-9de7-4d39-b38f-191628484ddc", DataRejestracji = new DateTime(2018, 8, 26, 20, 36, 17, 531, DateTimeKind.Local), DzienSysZamowienia = 0, Email = "miska@gmail.com", EmailConfirmed = false, GodzinaSysZamowienia = new TimeSpan(0, 0, 0, 0, 0), Imie = "Misia", LiczbaZamowien = 0m, LockoutEnabled = false, Nazwisko = "Mis", PhoneNumberConfirmed = false, TwoFactorEnabled = false },
+                        new { Id = "3", AccessFailedCount = 0, ConcurrencyStamp = "db4096b6-b41e-4124-87f0-605c3571983a", DataRejestracji = new DateTime(2018, 8, 26, 20, 36, 17, 531, DateTimeKind.Local), DzienSysZamowienia = 0, Email = "sobek44@gmail.com", EmailConfirmed = false, GodzinaSysZamowienia = new TimeSpan(0, 0, 0, 0, 0), Imie = "Sebke", LiczbaZamowien = 0m, LockoutEnabled = false, Nazwisko = "Szczepankiewicz", PhoneNumberConfirmed = false, TwoFactorEnabled = false },
+                        new { Id = "4", AccessFailedCount = 0, ConcurrencyStamp = "fa2e0542-ea22-4640-9d06-49b3e4684947", DataRejestracji = new DateTime(2018, 8, 26, 20, 36, 17, 531, DateTimeKind.Local), DzienSysZamowienia = 0, Email = "kozula@gmail.com", EmailConfirmed = false, GodzinaSysZamowienia = new TimeSpan(0, 0, 0, 0, 0), Imie = "MIchal", LiczbaZamowien = 0m, LockoutEnabled = false, Nazwisko = "Kozubek", PhoneNumberConfirmed = false, TwoFactorEnabled = false }
                     );
                 });
 

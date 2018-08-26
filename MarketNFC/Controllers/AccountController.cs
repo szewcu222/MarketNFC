@@ -117,7 +117,9 @@ namespace MarketNFC.Controllers
                     LoginFridgeViewModel m = new LoginFridgeViewModel {
                         Email = model.Email,
                         UserId = user.Id,
-                        FridgeId = lodowka.LodowkaId
+                        FridgeId = lodowka.LodowkaId,
+                        Day = user.DzienSysZamowienia,
+                        Time = user.GodzinaSysZamowienia
                     };
 
                     return Json(m);

@@ -13,5 +13,9 @@ namespace MarketNFC.Models.AccountViewModels
         public string UserId { get; set; }
 
         public int FridgeId { get; set; }
+
+        public int Day { get; set; }
+
+        public TimeSpan Time  { get; set; }
     }
 }

@@ -104,5 +104,40 @@ namespace MarketNFC.Services
                 }
             }
         }
+
+        public SystemOrderViewModel GetDayAndTimeSystemOrder(string userId)
+        {
+            var user = _context.Users
+                .AsNoTracking()
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if(user == null)
+            {
+                return new SystemOrderViewModel { 
+                    Day = -1
+                };
+            }
+
+            return new SystemOrderViewModel { 
+                Day = user.DzienSysZamowienia, 
+                Time = user.GodzinaSysZamowienia
+            };
+        }
+
+        public void PostDayAndTimeSystemOrder(string userId, SystemOrderViewModel order)
+        {
+            var user = _context.Users
+                .AsNoTracking()
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            user.DzienSysZamowienia = order.Day;
+            user.GodzinaSysZamowienia = order.Time;
+
+            _context.Users.Update(user);
+
+            _context.SaveChanges();
+        }
     }
 }

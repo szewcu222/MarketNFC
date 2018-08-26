@@ -38,9 +38,9 @@ namespace MarketNFC.Models
 
         public string Producent { get; set; }
 
-        public int GlobalnyNumerJednostkiHandlowej { get; set; }
+        public string GlobalnyNumerJednostkiHandlowej { get; set; }
 
-        public int NumerPartiiProdukcyjnej { get; set; }
+        public string NumerPartiiProdukcyjnej { get; set; }
 
         public float Cena { get; set; }
 

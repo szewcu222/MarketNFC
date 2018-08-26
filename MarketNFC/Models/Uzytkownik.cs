@@ -33,6 +33,10 @@ namespace MarketNFC.Models
         public DateTime DataRejestracji { get; set; }
         public UInt64 LiczbaZamowien { get; set; }
 
+        public int DzienSysZamowienia { get; set; }
+
+        public TimeSpan GodzinaSysZamowienia { get; set; }
+
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
 
         private ICollection<UpodobanieUzytkownika> UpodobaniaUzytkownika { get; }
