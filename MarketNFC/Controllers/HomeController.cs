@@ -192,7 +192,19 @@ namespace MarketNFC.Controllers
             var userGrupa = _db.UzytkownicyGrupy.
                 Where(g => g.UzytkownikId == user.Id).
                 FirstOrDefault();
-            var grupa = _db.Grupy.Find(userGrupa.GrupaId);
+
+            Grupa grupa;
+            if (userGrupa == null)
+            {
+                grupa = _db.Grupy.FirstOrDefault();
+                grupa.Uzytkownicy.Add(user);
+                _db.Grupy.Update(grupa);
+                _db.SaveChanges();
+            }
+            else
+                grupa = _db.Grupy.Find(userGrupa.GrupaId);
+
+
             var lodowka = _db.Lodowki.
                 Where(l => l.GrupaId == grupa.GrupaId).
                 FirstOrDefault();

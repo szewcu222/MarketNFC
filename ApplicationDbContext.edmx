@@ -935,26 +935,28 @@
       </DesignerInfoPropertySet>
     </Options>
     <Diagrams >
-      <Diagram DiagramId="c23219e8242a47b2840dcc395347c476" Name="Diagram1">
-        <EntityTypeShape EntityType="NFC_MVC.DAL.Grupa" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.Lodowka" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.StanLodowki" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.Produkt" Width="1.5" PointX="7.5" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.UpodobanieUzytkownika" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.Uzytkownik" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityUserClaim" Width="1.5" PointX="5.25" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityUserLogin" Width="1.5" PointX="5.25" PointY="18.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityUserRole" Width="1.5" PointX="8.25" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.Zamowienie" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityRole" Width="1.5" PointX="6" PointY="20.875" IsExpanded="true" />
+      <Diagram DiagramId="c23219e8242a47b2840dcc395347c476" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Grupa" Width="1.5" PointX="7.5" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Lodowka" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.StanLodowki" Width="1.5" PointX="5.625" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Produkt" Width="1.5" PointX="3.375" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.UpodobanieUzytkownika" Width="1.875" PointX="4.875" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Uzytkownik" Width="1.5" PointX="2.125" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityUserClaim" Width="1.5" PointX="3.625" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityUserLogin" Width="1.5" PointX="1.125" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityUserRole" Width="1.5" PointX="6.625" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.Zamowienie" Width="1.5" PointX="0.625" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NFC_MVC.DAL.IdentityRole" Width="1.5" PointX="6.5" PointY="18.75" IsExpanded="true" />
         <AssociationConnector Association="NFC_MVC.DAL.Lodowka_Grupa" ManuallyRouted="false" />
-        <AssociationConnector Association="NFC_MVC.DAL.StanLodowki_Lodowka" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.StanLodowki_Lodowka" ManuallyRouted="false" >
+        </AssociationConnector>
         <AssociationConnector Association="NFC_MVC.DAL.Produkt_StanLodowki" ManuallyRouted="false" />
         <AssociationConnector Association="NFC_MVC.DAL.UpodobanieUzytkownika_Produkt" ManuallyRouted="false" />
         <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_Claims" ManuallyRouted="false" />
         <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_Grupa" ManuallyRouted="false" />
         <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_Logins" ManuallyRouted="false" />
-        <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_Roles" ManuallyRouted="false" >
+        </AssociationConnector>
         <AssociationConnector Association="NFC_MVC.DAL.Uzytkownik_UpodobaniaUzytkownika" ManuallyRouted="false" />
         <AssociationConnector Association="NFC_MVC.DAL.Zamowienie_Lodowka" ManuallyRouted="false" />
         <AssociationConnector Association="NFC_MVC.DAL.Zamowienie_Produkty" ManuallyRouted="false" />

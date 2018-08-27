@@ -43,8 +43,8 @@ namespace MarketNFC
                 });
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                facebookOptions.AppId = "1932547416810815";
+                facebookOptions.AppSecret = "8c84d32102444ed6e1d832bb059607a3";
             });
         }
 
