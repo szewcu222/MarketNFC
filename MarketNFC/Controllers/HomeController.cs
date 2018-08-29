@@ -37,9 +37,9 @@ namespace MarketNFC.Controllers
             _db.Produkty.Add(produkt);
             //_db.SaveChanges();
 
-            var p = _db.Produkty.Find(1);
+            //var p = _db.Produkty.Find(1);
 
-            ViewData["Zwrotka"] = p.Nazwa;
+            ViewData["Zwrotka"] = "cos";
             return View();
         }
 

@@ -38,7 +38,7 @@ namespace MarketNFC.Controllers
             return Ok();
         }
 
-        [HttpGet("systemorder/{id}")]
+        [HttpGet("ordertime/{id}")]
         public async Task<IActionResult> GetDayAndTimeSystemOr([FromRoute] string id)
         {
             if (!ModelState.IsValid)
@@ -56,7 +56,7 @@ namespace MarketNFC.Controllers
             return Json(order);
         }
 
-        [HttpPost("systemorder/{id}")]
+        [HttpPost("ordertime/{id}")]
         public async Task<IActionResult> PostDayAndTimeSystemOr([FromRoute] string id,
             [FromBody] SystemOrderViewModel order)
         {
@@ -69,5 +69,29 @@ namespace MarketNFC.Controllers
 
             return Ok();
         }
+
+        [HttpGet("systemorder/{id}")]
+        public async Task<IActionResult> SystemOrder([FromRoute] string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var zamowienie = upodobaniaService.SystemOrder(id);          
+
+            if (zamowienie != null)
+            {
+                _context.Zamowienia.Add(zamowienie);
+                _context.SaveChanges();
+
+                return Json(zamowienie.Produkty);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+        
     }
 }

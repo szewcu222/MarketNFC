@@ -1,5 +1,6 @@
 ﻿using MarketNFC.Data;
 using MarketNFC.Models;
+using MarketNFC.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,7 +16,7 @@ namespace MarketNFC.Services
         // *odczytuje zamowienia danego uzytkownika. Slownik tych produktow wraz z liczba wystapien. na podstawie tego oblicza wspolczynbnik upodobania i dodaje do tabeli UpodobaniaUzytkownika
         // *dodatkowo metody do getowania tych wierszy zeby na szybkosci byly
         //
-
+        private readonly float POZIOM_WSP_ULUB = 0.65f;
         private readonly ApplicationDbContext _context;
 
         public UpodobaniaService(ApplicationDbContext context)
@@ -23,7 +24,7 @@ namespace MarketNFC.Services
             _context = context;
         }
 
-        public void ObliczUpodobaniaUzytkownika(string uzytkownikId)
+        public Dictionary<string,float> ObliczUpodobaniaUzytkownika(string uzytkownikId)
         {
             var user = _context.Users.Where(u => u.Id == uzytkownikId).FirstOrDefault();
 
@@ -101,8 +102,10 @@ namespace MarketNFC.Services
                             _context.SaveChanges();
                         }
                     }
+                    return upodobaniaDict;
                 }
             }
+            return null;
         }
 
         public SystemOrderViewModel GetDayAndTimeSystemOrder(string userId)
@@ -138,6 +141,60 @@ namespace MarketNFC.Services
             _context.Users.Update(user);
 
             _context.SaveChanges();
+        }
+
+        public Zamowienie SystemOrder(string userId)
+        {
+            var user = _context.Users
+                .FirstOrDefault(u => u.Id == userId);
+
+            if (user == null)
+                return null;
+
+            var userGrupa = _context.UzytkownicyGrupy
+                .FirstOrDefault(g => g.UzytkownikId == user.Id);
+
+            var grupa = _context.Grupy
+                .FirstOrDefault(g => g.GrupaId == userGrupa.GrupaId);
+
+            var lodowka = _context.Lodowki
+                .Include("StanLodowki.Produkt")
+                .FirstOrDefault(l => l.GrupaId == grupa.GrupaId);
+
+            if (user != null)
+            {
+                var ulubioneProdukty = ObliczUpodobaniaUzytkownika(userId);
+                List<Produkt> produktyDoZamowienia = new List<Produkt>();
+                if (ulubioneProdukty.Count > 0)
+                {
+                    foreach (var prod in ulubioneProdukty)
+                    {
+                        if (prod.Value > POZIOM_WSP_ULUB)
+                        {
+                            if(!lodowka.Produkty.Any(p => p.RFIDTag == prod.Key))
+                            {
+                                produktyDoZamowienia.Add(_context.Produkty
+                                        .AsNoTracking()
+                                        .FirstOrDefault(p => p.RFIDTag == prod.Key)
+                                   );
+                            }
+                        }
+                    }
+
+                    var zamowienie = new Zamowienie
+                    {
+                        TypZamowienia = TypeOrder.SysOrder,
+                        DataZamowienia = DateTime.Now,
+                        UzytkownikId = user.Id,
+                        LodowkaId = lodowka.LodowkaId ,
+                        Produkty = produktyDoZamowienia                       
+                    };
+
+                    return zamowienie;
+                }
+            }
+
+            return null;
         }
     }
 }
