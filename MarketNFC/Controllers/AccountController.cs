@@ -308,6 +308,21 @@ namespace MarketNFC.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var lodowka = new Lodowka
+                    {
+                        Pojemnosc = 15,
+                        DataAktualizacji = DateTime.Now
+                    };
+                    var grupa = new Grupa 
+                    { 
+                        Nazwa = user.Email, 
+                        Lodowka = lodowka, 
+                        Uzytkownicy = new List<Uzytkownik> { user } 
+                    };
+
+                    _context.Grupy.Add(grupa);
+                    _context.SaveChanges();
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -336,6 +351,13 @@ namespace MarketNFC.Controllers
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LogoutFromFridge()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok();
         }
 
         [HttpPost]
