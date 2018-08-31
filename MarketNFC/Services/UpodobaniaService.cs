@@ -105,7 +105,7 @@ namespace MarketNFC.Services
                     return upodobaniaDict;
                 }
             }
-            return null;//new Dictionary<string, float>();
+            return new Dictionary<string, float>();
         }
 
         public SystemOrderViewModel GetDayAndTimeSystemOrder(string userId)
@@ -154,12 +154,21 @@ namespace MarketNFC.Services
             var userGrupa = _context.UzytkownicyGrupy
                 .FirstOrDefault(g => g.UzytkownikId == user.Id);
 
+            if (userGrupa == null)
+                return null;
+
             var grupa = _context.Grupy
                 .FirstOrDefault(g => g.GrupaId == userGrupa.GrupaId);
+
+            if (grupa == null)
+                return null;
 
             var lodowka = _context.Lodowki
                 .Include("StanLodowki.Produkt")
                 .FirstOrDefault(l => l.GrupaId == grupa.GrupaId);
+
+            if (lodowka == null)
+                return null;
 
             if (user != null)
             {
@@ -194,8 +203,7 @@ namespace MarketNFC.Services
                     return zamowienie;
                 }
             }
-
-            return new Zamowienie{ZamowienieId = -1};
+            return null;
         }
     }
 }
