@@ -82,10 +82,18 @@ namespace MarketNFC.Controllers
 
             if (zamowienie != null)
             {
-                _context.Zamowienia.Add(zamowienie);
-                _context.SaveChanges();
+                if (zamowienie.ZamowienieId == -1)
+                {
+                    return Accepted();
+                }
+                else
+                {
+                    _context.Zamowienia.Add(zamowienie);
+                    _context.SaveChanges();
 
-                return Json(zamowienie.Produkty);
+                    return Json(zamowienie.Produkty);
+                }
+                
             }
             else
             {
