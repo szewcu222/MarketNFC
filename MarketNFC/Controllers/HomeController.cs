@@ -39,7 +39,7 @@ namespace MarketNFC.Controllers
 
             //var p = _db.Produkty.Find(1);
 
-            ViewData["Zwrotka"] = "test";
+            ViewData["Zwrotka"] = "nowy ConString";
             return View();
         }
 
