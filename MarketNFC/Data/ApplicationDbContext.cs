@@ -24,8 +24,7 @@ namespace MarketNFC.Data
         public DbSet<UzytkownikGrupa> UzytkownicyGrupy { get; set; }
         public DbSet<Zamowienie> Zamowienia { get; set; }
         public DbSet<ZamowienieProdukt> ZamowieniaProdukty { get; set; }
-    
-        const string conString = "Server=tcp:marketnfcstrojekdbserver.database.windows.net,1433;Initial Catalog=MarketNFCstrojek_db;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        const string conString = "Data Source=tcp:marketnfcstrojekdbserver.database.windows.net,1433;Initial Catalog=MarketNFCstrojek_db;User Id=dszewc@marketnfcstrojekdbserver;Password=Anarchy_676";
 
         public static ApplicationDbContext Create()
         {
