@@ -320,7 +320,15 @@ namespace MarketNFC.Controllers
                         Uzytkownicy = new List<Uzytkownik> { user } 
                     };
 
+                    var uzytGrupa = new UzytkownikGrupa
+                    {
+                        Grupa = grupa,
+                        Uzytkownik = user
+                    };
+
                     _context.Grupy.Add(grupa);
+                    _context.UzytkownicyGrupy.Add(uzytGrupa);
+                    
                     _context.SaveChanges();
 
                     _logger.LogInformation("User created a new account with password.");
