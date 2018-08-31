@@ -195,7 +195,7 @@ namespace MarketNFC.Services
                 }
             }
 
-            return null;
+            return new Zamowienie{ZamowienieId = -1};
         }
     }
 }
