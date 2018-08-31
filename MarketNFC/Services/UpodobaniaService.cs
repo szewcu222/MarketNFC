@@ -105,7 +105,7 @@ namespace MarketNFC.Services
                     return upodobaniaDict;
                 }
             }
-            return null;
+            return new Dictionary<string, float>();
         }
 
         public SystemOrderViewModel GetDayAndTimeSystemOrder(string userId)
@@ -164,6 +164,7 @@ namespace MarketNFC.Services
             if (user != null)
             {
                 var ulubioneProdukty = ObliczUpodobaniaUzytkownika(userId);
+
                 List<Produkt> produktyDoZamowienia = new List<Produkt>();
                 if (ulubioneProdukty.Count > 0)
                 {
