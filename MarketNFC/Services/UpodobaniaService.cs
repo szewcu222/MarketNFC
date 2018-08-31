@@ -105,7 +105,7 @@ namespace MarketNFC.Services
                     return upodobaniaDict;
                 }
             }
-            return new Dictionary<string, float>();
+            return null;//new Dictionary<string, float>();
         }
 
         public SystemOrderViewModel GetDayAndTimeSystemOrder(string userId)
