@@ -40,23 +40,26 @@ namespace MarketNFC.Services
             return produkt;
         }
 
-        public void PostProdukt(Produkt produkt)
+        public bool PostProdukt(Produkt produkt)
         {
+            if (IsProduktAlreadyExists(produkt.RFIDTag))
+                return false;
+
             _context.Produkty.Add(produkt);
             _context.SaveChanges();
+
+            return true;
         }
 
-        public void PostProduktLodowka(Produkt produkt)
+        public bool IsProduktAlreadyExists(string rfidUID)
         {
-            //bo normalnie bedzie tak ze jak bedziesz postowal produkt to dasz jedna lodowke w tkorej bedzie np jej ID lub nazwa lub cos innego
-            //ponizej przykladowy json
-            var lodowka = _context.Lodowki
-                .FirstOrDefault(l => l.LodowkaId == produkt.Lodowki.First().LodowkaId);
+            var produkt = _context.Produkty
+                .FirstOrDefault(p => p.RFIDTag == rfidUID);
 
-            produkt.Lodowki.Add(lodowka);
-
-            _context.Produkty.Add(produkt);
-            _context.SaveChanges();
+            if (produkt == null)
+                return false;
+            else
+                return true;
         }
 
         /*

@@ -115,11 +115,12 @@ namespace MarketNFC.Controllers
                 return BadRequest(ModelState);
             }
 
-            //tu jak chcesz albo sobie uzywaj PostProdukt albo PostProduktLodowka
-            //produktService.PostProdukt(produkt);
-            produktService.PostProduktLodowka(produkt);
+            var res = produktService.PostProdukt(produkt);
 
-            return CreatedAtAction("GetProdukt", new { id = produkt.ProduktId }, produkt);
+            if (res)
+                return Ok();
+            else
+                return Accepted();
         }
 
         // DELETE: api/Produkt/5
