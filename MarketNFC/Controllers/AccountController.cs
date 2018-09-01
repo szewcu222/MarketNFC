@@ -107,12 +107,13 @@ namespace MarketNFC.Controllers
                     _logger.LogInformation("User logged in.");
                     
                     var user = _context.Users
-                        .Where(u => u.Email == model.Email)
-                        .FirstOrDefault();
+                        .FirstOrDefault(u => u.Email == model.Email);
 
-                    var lodowka = _context.Lodowki
-                        .Where(l => l.GrupaId == 1)
-                        .FirstOrDefault();
+                    var grupa = _context.Grupy
+                        .Include("Lodowka")
+                        .FirstOrDefault(g => g.Nazwa == user.Email);
+
+                    var lodowka = grupa.Lodowka;
 
                     LoginFridgeViewModel m = new LoginFridgeViewModel {
                         Email = model.Email,
