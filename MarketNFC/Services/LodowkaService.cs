@@ -86,7 +86,7 @@ namespace MarketNFC.Services
                 }
             }
 
-            lodowkaDb.DataAktualizacji = DateTime.Now;
+            lodowkaDb.DataAktualizacji = lodowka.DataAktualizacji;
 
             return lodowkaDb;
         }
