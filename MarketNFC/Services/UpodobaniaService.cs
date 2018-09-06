@@ -48,13 +48,13 @@ namespace MarketNFC.Services
                         {
                             foreach (var p in z.Produkty)
                             {
-                                if (!liczbaWystapienProduktu.Keys.Contains(p.RFIDTag))
+                                if (!liczbaWystapienProduktu.Keys.Contains(p.GlobalnyNumerJednostkiHandlowej))
                                 {
-                                    liczbaWystapienProduktu.Add(p.RFIDTag, 1);
+                                    liczbaWystapienProduktu.Add(p.GlobalnyNumerJednostkiHandlowej, 1);
                                 }
                                 else
                                 {
-                                    liczbaWystapienProduktu[p.RFIDTag]++;
+                                    liczbaWystapienProduktu[p.GlobalnyNumerJednostkiHandlowej]++;
                                 }
                             }
                         }
@@ -87,7 +87,7 @@ namespace MarketNFC.Services
                             foreach (var u in upodobaniaDict)
                             {
                                 var produkt = _context.Produkty
-                                    .Where(p => p.RFIDTag == u.Key)
+                                    .Where(p => p.GlobalnyNumerJednostkiHandlowej == u.Key)
                                     .FirstOrDefault();
 
                                 _context.UpodobaniaUzytkownikow.Add(
@@ -181,11 +181,11 @@ namespace MarketNFC.Services
                     {
                         if (prod.Value > POZIOM_WSP_ULUB)
                         {
-                            if(!lodowka.Produkty.Any(p => p.RFIDTag == prod.Key))
+                            if(!lodowka.Produkty.Any(p => p.GlobalnyNumerJednostkiHandlowej == prod.Key))
                             {
                                 produktyDoZamowienia.Add(_context.Produkty
                                         .AsNoTracking()
-                                        .FirstOrDefault(p => p.RFIDTag == prod.Key)
+                                        .FirstOrDefault(p => p.GlobalnyNumerJednostkiHandlowej == prod.Key)
                                    );
                             }
                         }
